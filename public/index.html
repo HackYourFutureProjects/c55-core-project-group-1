@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Movie Dashboard</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- TOP BAR -->
+    <header class="topbar">
+      <div></div>
+
+      <div class="auth">
+        <button class="logout-btn">Logout</button>
+      </div>
+    </header>
+
+    <div class="layout">
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <h3>Pick Genres</h3>
+        <ul class="genres">
+          <li>Action</li>
+          <li>Comedy</li>
+          <li>Drama</li>
+          <li>Sci-Fi</li>
+          <li>Adventure</li>
+        </ul>
+
+        <button class="random-btn">⭐ Random Movies</button>
+
+        <h3>Watchlist</h3>
+        <ul class="watchlist">
+          <li>View Watchlist</li>
+          <li>Add to Watchlist</li>
+        </ul>
+      </aside>
+
+      <!-- MAIN -->
+      <main class="main">
+        <!-- SEARCH CONTROL -->
+        <div class="search-control">
+          <select class="search-type">
+            <option>Genre</option>
+            <option>Year</option>
+            <option>Actor</option>
+            <option>Title</option>
+            <option>Rating</option>
+          </select>
+
+          <input placeholder="Type here..." />
+
+          <button>Search</button>
+        </div>
+
+        <!-- 🎯 RECOMMENDATION AREA -->
+        <h2 class="section-title">🎯 Recommended for you</h2>
+
+        <div class="movies" id="movieContainer">
+          <div class="movie-card">GALACTIC ODYSSEY</div>
+          <div class="movie-card">SUMMER ROMANCE</div>
+          <div class="movie-card">UNDERCOVER JUSTICE</div>
+          <div class="movie-card">NEON NIGHT</div>
+          <div class="movie-card">SPACE HUNTERS</div>
+        </div>
+
+        <!-- WATCH -->
+        <div class="watch">
+          <p>Where to Watch?</p>
+          <div class="platforms">
+            <span class="netflix">NETFLIX</span>
+            <span class="hulu">HULU</span>
+            <span class="prime">PRIME VIDEO</span>
+          </div>
+        </div>
+
+        <!-- SUGGEST -->
+        <div class="suggest">
+          <input placeholder="Enter movie description..." />
+          <button>Suggest</button>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Movie Search</title>
+  </head>
+  <body>
+    <input type="text" id="searchInput" placeholder="Search for a movie..." />
+    <button onclick="search()">Search</button>
+
+    <div id="results"></div>
+
+    <script>
+      async function search() {
+        const query = document.getElementById('searchInput').value;
+
+        const response = await fetch(`/movies/search?q=${query}`);
+        const data = await response.json();
+
+        document.getElementById('results').innerHTML = data.results
+          .map((movie) => `<p>${movie.title}</p>`)
+          .join('');
+      }
+    </script>
+  </body>
+</html>

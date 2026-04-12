@@ -7,7 +7,8 @@ const app = express();
 app.use(express.json());
 app.use(morgan('dev'));
 
-app.use('/', movieRoutes);
+app.use('/movies', movieRoutes);
+// app.use('/watchlist', watchlistRoutes);
 
 // Week 3 - JavaScript Modules - Default Exports
 export default app;

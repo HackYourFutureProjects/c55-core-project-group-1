@@ -16,4 +16,8 @@ export const movieController = {
       res.status(500).json({ error: 'Failed to fetch search results' });
     }
   },
+
+  async getByYear() {
+    // Implement
+  },
 };

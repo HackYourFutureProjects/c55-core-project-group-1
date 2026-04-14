@@ -1,3 +1,5 @@
+import process from "process";
+
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -35,12 +37,16 @@ export async function getTopRatedMovies() {
   return data.results;
 }
 
-// Search
+
+
+/* Search
 export async function searchMovies(query) {
   const res = await fetch(`${BASE_URL}/movie/popular?api_key=${API_KEY}`);
   const data = await res.json();
   return data.results;
 }
+*/ 
+
 
 //Try 
 getPopularMovies().then(data => {

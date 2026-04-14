@@ -1,54 +1,72 @@
-import process from "process";
 
+import process from "dotenv";
 import dotenv from "dotenv";
 dotenv.config();
-
-console.log("API KEY:", process.env.TMDB_API_KEY);
-
 
 const API_KEY = process.env.TMDB_API_KEY;
 const BASE_URL = "https://api.themoviedb.org/3";
 
-//Popular Movies
+console.log("API KEY loaded:", !!API_KEY);
+
+// Helper function to reduce repetition (optional but clean)
+async function fetchFromTMDB(endpoint) {
+  try {
+    const res = await fetch(`${BASE_URL}${endpoint}?api_key=${API_KEY}`);
+
+    if (!res.ok) {
+      throw new Error(`TMDB Error: ${res.status}`);
+    }
+
+    const data = await res.json();
+    return data.results;
+  } catch (error) {
+    console.error("Fetch error:", error.message);
+    return [];
+  }
+}
+
+//  Popular Movies
 export async function getPopularMovies() {
-  const res = await fetch(`${BASE_URL}/movie/popular?api_key=${API_KEY}`);
-  const data = await res.json();
-  return data.results;
+  return fetchFromTMDB("/movie/popular");
 }
 
-//Upcoming Movies
+// Upcoming Movies
 export async function getUpcomingMovies() {
-  const res = await fetch(`${BASE_URL}/movie/popular?api_key=${API_KEY}`);
-  const data = await res.json();
-  return data.results;
+  return fetchFromTMDB("/movie/upcoming");
 }
 
-//Now Playing
+//  Now Playing
 export async function getNowPlayingMovies() {
-  const res = await fetch(`${BASE_URL}/movie/popular?api_key=${API_KEY}`);
-  const data = await res.json();
-  return data.results;
+  return fetchFromTMDB("/movie/now_playing");
 }
 
-// Top Rated
+//  Top Rated
 export async function getTopRatedMovies() {
-  const res = await fetch(`${BASE_URL}/movie/popular?api_key=${API_KEY}`);
-  const data = await res.json();
-  return data.results;
+  return fetchFromTMDB("/movie/top_rated");
 }
 
-
-
-/* Search
+//Search Movies 
 export async function searchMovies(query) {
-  const res = await fetch(`${BASE_URL}/movie/popular?api_key=${API_KEY}`);
-  const data = await res.json();
-  return data.results;
+  try {
+    const res = await fetch(
+      `${BASE_URL}/search/movie?api_key=${API_KEY}&query=${encodeURIComponent(query)}`
+    );
+
+    if (!res.ok) {
+      throw new Error(`Search failed: ${res.status}`);
+    }
+
+    const data = await res.json();
+    return data.results;
+  } catch (error) {
+    console.error("Search error:", error.message);
+    return [];
+  }
 }
-*/ 
 
 
-//Try 
+
+// TEST
 getPopularMovies().then(data => {
-  console.log("Popular Movies:", data.slice(0, 3));
+  console.log("Popular Movies (top 3):", data.slice(0, 3));
 });

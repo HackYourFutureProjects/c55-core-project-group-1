@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Movie Dashboard</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body>
+    <!-- TOP BAR -->
+    <header class="topbar">
+      <!-- LOGO -->
+      <div class="logo">
+        <img
+          src="https://i.postimg.cc/HsrBGNBM/Gemini-Generated-Image-hhtapbhhtapbhhta.png"
+          alt="Logo"
+          class="logo-img"
+        />
+      </div>
+
+      <!-- BUTTON -->
+      <div class="auth">
+        <button
+          class="find-us"
+          onclick="window.location.href = 'https://hackyourfuture.net/'"
+        >
+          Find Us
+        </button>
+      </div>
+    </header>
+
+    <div class="layout">
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <h3>Pick Genres</h3>
+
+        <ul class="genres">
+          <li data-genre="action">Action</li>
+          <li data-genre="comedy">Comedy</li>
+          <li data-genre="drama">Drama</li>
+          <li data-genre="sci-fi">Sci-Fi</li>
+          <li data-genre="adventure">Adventure</li>
+        </ul>
+
+        <button class="random-btn">⭐ Random Movies</button>
+
+        <h3>Watchlist</h3>
+        <ul class="watchlist">
+          <li>View Watchlist</li>
+          <li>Add to Watchlist</li>
+        </ul>
+      </aside>
+
+      <!-- MAIN -->
+      <main class="main">
+        <!-- SEARCH CONTROL -->
+        <div class="search-control">
+          <select class="search-type">
+            <option>Genre</option>
+            <option>Year</option>
+            <option>Actor</option>
+            <option>Title</option>
+            <option>Rating</option>
+          </select>
+
+          <input placeholder="Type here..." />
+          <button>Search</button>
+        </div>
+
+        <h2 class="section-title">🎯 Recommended for you</h2>
+
+        <div class="movies" id="movieContainer"></div>
+
+        <div class="watch">
+          <p>Where to Watch?</p>
+          <div class="platforms">
+            <span class="netflix">NETFLIX</span>
+            <span class="hulu">HULU</span>
+            <span class="prime">PRIME VIDEO</span>
+          </div>
+        </div>
+
+        <div class="suggest">
+          <input placeholder="Enter movie description..." />
+          <button>Suggest AI</button>
+        </div>
+      </main>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

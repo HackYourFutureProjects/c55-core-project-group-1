@@ -15,7 +15,7 @@
   "type": "module",
   "main": "frontend/script.js",
   "scripts": {
-    "start": "node src/index.js",
+    "start": "node src/backend/server.js",
     "format": "prettier --write .",
     "test": "vitest run",
     "lint": "eslint ."
@@ -26,5 +26,9 @@
     "globals": "^17.4.0",
     "prettier": "^3.8.1",
     "vitest": "^4.1.4"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1"
   }
 }

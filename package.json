@@ -15,7 +15,7 @@
   "type": "module",
   "main": "frontend/script.js",
   "scripts": {
-    "start": "node src/index.js",
+    "start": "node src/backend/server.js",
     "format": "prettier --write .",
     "test": "vitest run",
     "lint": "eslint ."

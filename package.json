@@ -13,12 +13,12 @@
   "license": "ISC",
   "author": "",
   "type": "module",
-  "main": "src/index.js",
+  "main": "frontend/script.js",
   "scripts": {
-    "test": "vitest",
-    "start": "node src/index.js",
-    "lint": "eslint .",
-    "format": "prettier --write ."
+    "start": "node src/backend/server.js",
+    "format": "prettier --write .",
+    "test": "vitest run",
+    "lint": "eslint ."
   },
   "dependencies": {
     "sqlite3": "^5.1.7"
@@ -28,6 +28,10 @@
     "eslint": "^10.2.0",
     "globals": "^17.4.0",
     "prettier": "^3.8.1",
-    "vitest": "^4.1.3"
+    "vitest": "^4.1.4"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1"
   }
 }

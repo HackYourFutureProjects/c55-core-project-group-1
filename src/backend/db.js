@@ -3,6 +3,7 @@ import path from 'node:path';
 
 const DB_FILE = path.resolve('src/database/movies_recommendation.db');
 
+// connectDB: Open SQLite connection to database file.
 export function connectDb(dbPath = DB_FILE) {
   return new Promise((resolve, reject) => {
     const db = new sqlite3.Database(dbPath, (error) => {
@@ -23,6 +24,7 @@ export function connectDb(dbPath = DB_FILE) {
   });
 }
 
+// closeDb: Closes an open SQLite connection.
 export function closeDb(db) {
   return new Promise((resolve, reject) => {
     db.close((error) => {
@@ -36,6 +38,7 @@ export function closeDb(db) {
   });
 }
 
+// run: Internal helper for SQL commands that change data (INSERT, UPDATE, DELETE).
 function run(db, sql, params = []) {
   return new Promise((resolve, reject) => {
     db.run(sql, params, function onRun(error) {
@@ -48,7 +51,7 @@ function run(db, sql, params = []) {
     });
   });
 }
-
+// get: Internal helper to fetch one row.
 function get(db, sql, params = []) {
   return new Promise((resolve, reject) => {
     db.get(sql, params, (error, row) => {
@@ -62,6 +65,7 @@ function get(db, sql, params = []) {
   });
 }
 
+// all: Internal helper to fetch multiple rows.
 function all(db, sql, params = []) {
   return new Promise((resolve, reject) => {
     db.all(sql, params, (error, rows) => {
@@ -75,6 +79,7 @@ function all(db, sql, params = []) {
   });
 }
 
+// addMovieToWatchlist: Adds one movie_id to the watchlist table
 export async function addMovieToWatchlist(db, movieId) {
   try {
     await run(
@@ -91,6 +96,7 @@ export async function addMovieToWatchlist(db, movieId) {
   }
 }
 
+// removeMovieFromWatchlist: Removes a movie from watchlist by movie_id.
 export function removeMovieFromWatchlist(db, movieId) {
   return run(
     db,
@@ -99,6 +105,7 @@ export function removeMovieFromWatchlist(db, movieId) {
   );
 }
 
+// getAllWatchlistMovies: Fetches all saved movie IDs in watchlist.
 export function getAllWatchlistMovies(db) {
   return all(
     db,
@@ -106,6 +113,7 @@ export function getAllWatchlistMovies(db) {
   );
 }
 
+// isMovieInWatchlist: Checks if a movie already exists in watchlist.
 export function isMovieInWatchlist(db, movieId) {
   return get(
     db,
@@ -114,11 +122,13 @@ export function isMovieInWatchlist(db, movieId) {
   );
 }
 
+// clearWatchlist: Removes all rows from watchlist.
 export async function clearWatchlist(db) {
   const result = await run(db, 'DELETE FROM watchlist;', []);
   return result.changes;
 }
 
+// getWatchlistCount: Gets total number of watchlist rows.
 export function getWatchlistCount(db) {
   return get(
     db,

@@ -11,7 +11,7 @@ const app = express();
 
 app.use(express.json());
 app.use(morgan('dev'));
-app.use('/api/movies', router);
+app.use('/movies', router);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

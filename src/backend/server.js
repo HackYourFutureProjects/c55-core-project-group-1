@@ -5,13 +5,13 @@ import morgan from 'morgan'; // automatically records server activity and shows 
 
 dotenv.config();
 
-import router from './routes/movies.js';
+import MoviesRouter from './routes/movies.js';
 
 const app = express();
 
 app.use(express.json());
 app.use(morgan('dev'));
-app.use('/movies', router);
+app.use('/movies', MoviesRouter);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

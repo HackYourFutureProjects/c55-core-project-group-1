@@ -2,9 +2,9 @@ import express from 'express';
 
 import { searchMovies } from '../movieApi.js';
 
-const router = express.Router();
+const MoviesRouter = express.Router();
 
-router.get('/search', async (req, res) => {
+MoviesRouter.get('/search', async (req, res) => {
   try {
     const query = req.query.q;
 
@@ -20,4 +20,4 @@ router.get('/search', async (req, res) => {
   }
 });
 
-export default router;
+export default MoviesRouter;

@@ -21,9 +21,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "dotenv": "^17.4.2",
-    "express": "^5.2.1",
-    "morgan": "^1.10.1"
+    "sqlite3": "^5.1.7"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
@@ -31,5 +29,9 @@
     "globals": "^17.4.0",
     "prettier": "^3.8.1",
     "vitest": "^4.1.4"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1"
   }
 }

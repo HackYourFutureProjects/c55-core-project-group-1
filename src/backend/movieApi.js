@@ -63,10 +63,3 @@ export async function searchMovies(query) {
     return [];
   }
 }
-
-
-
-// TEST
-getPopularMovies().then(data => {
-  console.log("Popular Movies (top 3):", data.slice(0, 3));
-});

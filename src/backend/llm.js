@@ -1,4 +1,4 @@
-/* global process, fetch, AbortController */
+/* global process */
 
 import {
 	getNowPlayingMovies,

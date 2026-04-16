@@ -2,16 +2,15 @@
 import dotenv from "dotenv";
 dotenv.config();
 
-
 const API_KEY = process.env.TMDB_API_KEY;
 const BASE_URL = "https://api.themoviedb.org/3";
 
 console.log("API KEY loaded:", !!API_KEY);
 
-// Helper function to reduce repetition (optional but clean)
+// Helper
 async function fetchFromTMDB(endpoint) {
   try {
-    const res = await fetch(`${BASE_URL}${endpoint}?api_key=${API_KEY}`);
+    const res = await fetch(`${BASE_URL}${endpoint}`);
 
     if (!res.ok) {
       throw new Error(`TMDB Error: ${res.status}`);
@@ -25,27 +24,10 @@ async function fetchFromTMDB(endpoint) {
   }
 }
 
-//  Popular Movies
-export async function getPopularMovies() {
-  return fetchFromTMDB("/movie/popular");
-}
 
-// Upcoming Movies
-export async function getUpcomingMovies() {
-  return fetchFromTMDB("/movie/upcoming");
-}
 
-//  Now Playing
-export async function getNowPlayingMovies() {
-  return fetchFromTMDB("/movie/now_playing");
-}
+//  SEARCH BY TITLE (NO CHANGE)
 
-//  Top Rated
-export async function getTopRatedMovies() {
-  return fetchFromTMDB("/movie/top_rated");
-}
-
-//Search Movies 
 export async function searchMovies(query) {
   try {
     const res = await fetch(
@@ -66,7 +48,47 @@ export async function searchMovies(query) {
 
 
 
-// TEST
-getPopularMovies().then(data => {
-  console.log("Popular Movies (top 3):", data.slice(0, 3));
-});
+//  FILTERS (NEW FEATURES)
+
+//  Genre filter
+export async function getMoviesByGenre(genreId) {
+  return fetchFromTMDB(
+    `/discover/movie?api_key=${API_KEY}&with_genres=${genreId}`
+  );
+}
+
+//  Year filter
+export async function getMoviesByYear(year) {
+  return fetchFromTMDB(
+    `/discover/movie?api_key=${API_KEY}&primary_release_year=${year}`
+  );
+}
+
+//  Rating filter
+export async function getMoviesByRating(minRating) {
+  return fetchFromTMDB(
+    `/discover/movie?api_key=${API_KEY}&vote_average.gte=${minRating}`
+  );
+}
+
+// Actor filter
+export async function getMoviesByActor(personId) {
+  return fetchFromTMDB(
+    `/discover/movie?api_key=${API_KEY}&with_cast=${personId}`
+  );
+}
+
+//  Step 1: search actor (helper)
+export async function searchActor(query) {
+  try {
+    const res = await fetch(
+      `${BASE_URL}/search/person?api_key=${API_KEY}&query=${encodeURIComponent(query)}`
+    );
+
+    const data = await res.json();
+    return data.results;
+  } catch (error) {
+    console.error("Actor search error:", error.message);
+    return [];
+  }
+}

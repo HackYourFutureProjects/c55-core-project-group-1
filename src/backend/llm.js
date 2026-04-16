@@ -106,10 +106,9 @@ function getGenreName(movie) {
 		return 'Unknown';
 	}
 
-	for (const id of movie.genre_ids) {
-		if (TMDB_GENRES[id]) {
-			return TMDB_GENRES[id];
-		}
+	const [firstKnownGenreId] = movie.genre_ids.filter((id) => TMDB_GENRES[id]);
+	if (firstKnownGenreId) {
+		return TMDB_GENRES[firstKnownGenreId];
 	}
 
 	return 'Unknown';
@@ -395,21 +394,28 @@ function createSuggestions(movies, prompt, limit) {
 
 // End-to-end suggestion pipeline used by the route handler.
 export async function suggestMovies(prompt, options = {}) {
+    // cleaning user prompt
 	const cleanedPrompt = typeof prompt === 'string' ? prompt.trim() : '';
 	if (!cleanedPrompt) {
 		throw new Error('Prompt is required.');
 	}
 
+    // send prompt to LLM (gpt) to create a search plan for TMDB
 	const limit = normalizeLimit(options.limit);
 	const llmPlan = await getLlmPlan(cleanedPrompt);
+
+    // first try to get movies from TMDB based on LLM search
 	let tmdbMovies = await getTmdbCandidatesFromPlan(llmPlan);
 
+    // if LLM response fails, then provide simple search from TMDB api
 	if (!Array.isArray(tmdbMovies) || tmdbMovies.length === 0) {
 		tmdbMovies = await getTmdbCandidates(cleanedPrompt);
 	}
 
+    // prepare the final response in form of suggestions
 	const suggestions = createSuggestions(tmdbMovies, cleanedPrompt, limit);
 
+    // return the suggestion response
 	return {
 		source: llmPlan ? 'llm+tmdb' : 'tmdb',
 		suggestions,

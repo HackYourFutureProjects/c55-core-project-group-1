@@ -7,17 +7,10 @@ const DB_FILE = path.resolve('src/database/movies_recommendation.db');
 export function connectDb(dbPath = DB_FILE) {
   return new Promise((resolve, reject) => {
     const db = new sqlite3.Database(dbPath, (error) => {
-      if (error) {
-        reject(error);
-        return;
-      }
+      if (error) return reject(error);
 
       db.run('PRAGMA foreign_keys = ON;', (pragmaError) => {
-        if (pragmaError) {
-          reject(pragmaError);
-          return;
-        }
-
+        if (pragmaError) return reject(pragmaError);
         resolve(db);
       });
     });
@@ -27,76 +20,72 @@ export function connectDb(dbPath = DB_FILE) {
 // closeDb: Closes an open SQLite connection.
 export function closeDb(db) {
   return new Promise((resolve, reject) => {
-    db.close((error) => {
-      if (error) {
-        reject(error);
-        return;
-      }
+    if (!db) return resolve(); // safety check
 
+    db.close((error) => {
+      if (error) return reject(error);
       resolve();
     });
   });
 }
 
-// run: Internal helper for SQL commands that change data (INSERT, UPDATE, DELETE).
+// run: helper for INSERT, UPDATE, DELETE
 function run(db, sql, params = []) {
   return new Promise((resolve, reject) => {
-    db.run(sql, params, function onRun(error) {
-      if (error) {
-        reject(error);
-        return;
-      }
-
+    db.run(sql, params, function (error) {
+      if (error) return reject(error);
       resolve({ lastID: this.lastID, changes: this.changes });
     });
   });
 }
-// get: Internal helper to fetch one row.
+
+// get: helper for single row
 function get(db, sql, params = []) {
   return new Promise((resolve, reject) => {
     db.get(sql, params, (error, row) => {
-      if (error) {
-        reject(error);
-        return;
-      }
-
+      if (error) return reject(error);
       resolve(row ?? null);
     });
   });
 }
 
-// all: Internal helper to fetch multiple rows.
+// all: helper for multiple rows
 function all(db, sql, params = []) {
   return new Promise((resolve, reject) => {
     db.all(sql, params, (error, rows) => {
-      if (error) {
-        reject(error);
-        return;
-      }
-
+      if (error) return reject(error);
       resolve(rows || []);
     });
   });
 }
 
-// addMovieToWatchlist: Adds one movie_id to the watchlist table
+// addMovieToWatchlist
 export async function addMovieToWatchlist(db, movieId) {
+  if (!movieId) {
+    throw new Error('movieId is required');
+  }
+
   try {
     await run(
       db,
       'INSERT INTO watchlist (movie_id) VALUES (?);',
       [movieId]
     );
+
     return { success: true, movieId };
   } catch (error) {
     if (error.message.includes('UNIQUE constraint failed')) {
-      return { success: false, message: 'Movie already in watchlist', movieId };
+      return {
+        success: false,
+        message: 'Movie already in watchlist',
+        movieId,
+      };
     }
     throw error;
   }
 }
 
-// getAllWatchlistMovies: Fetches all saved movie IDs in watchlist.
+// get all movies
 export function getAllWatchlistMovies(db) {
   return all(
     db,
@@ -104,11 +93,17 @@ export function getAllWatchlistMovies(db) {
   );
 }
 
-// isMovieInWatchlist: Checks if a movie already exists in watchlist.
-export function isMovieInWatchlist(db, movieId) {
-  return get(
+// check if movie exists (returns boolean)
+export async function isMovieInWatchlist(db, movieId) {
+  if (!movieId) {
+    throw new Error('movieId is required');
+  }
+
+  const result = await get(
     db,
     'SELECT 1 FROM watchlist WHERE movie_id = ? LIMIT 1;',
     [movieId]
   );
+
+  return !!result;
 }

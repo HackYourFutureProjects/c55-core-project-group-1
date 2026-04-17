@@ -1,28 +1,52 @@
 import express from 'express';
-import { searchMovies } from '../movieApi.js';
+import {
+  searchMovies,
+  getMoviesByGenre,
+  getMoviesByYear,
+  getMoviesByRating,
+  searchActor,
+  getMoviesByActor,
+} from '../movieApi.js';
 
 const MoviesRouter = express.Router();
 
-// Search movies (supports genre, text search, trending, etc.)
 MoviesRouter.get('/search', async (req, res) => {
   try {
     const { q, type } = req.query;
-    if (!q && !type) {
-      return res
-        .status(400)
-        .json({ error: "Search query 'q' or 'type' is required" });
+
+    if (!q) return res.status(400).json({ error: 'Query is required' });
+
+    let data;
+
+    switch (type) {
+      case 'genre':
+        data = await getMoviesByGenre(q);
+        break;
+
+      case 'year':
+        data = await getMoviesByYear(q);
+        break;
+
+      case 'rating':
+        data = await getMoviesByRating(q);
+        break;
+
+      case 'actor': {
+        const actors = await searchActor(q);
+        if (actors.length === 0) return res.json([]);
+        data = await getMoviesByActor(actors[0].id);
+        break;
+      }
+
+      default: // title
+        data = await searchMovies(q);
+        break;
     }
 
-    const data = await searchMovies(q, type);
-    if (!data) {
-      return res.status(404).json({ error: 'No movies found' });
-    }
     res.json(data);
   } catch (error) {
     console.error('Search Route Error:', error.message);
-    res
-      .status(500)
-      .json({ error: 'Internal Server Error while searching movies' });
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 

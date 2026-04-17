@@ -22,6 +22,25 @@ async function fetchFromTMDB(endpoint) {
   }
 }
 
+//  Popular Movies
+export async function getPopularMovies() {
+  return fetchFromTMDB("/movie/popular");
+}
+
+// Upcoming Movies
+export async function getUpcomingMovies() {
+  return fetchFromTMDB("/movie/upcoming");
+}
+
+//  Now Playing
+export async function getNowPlayingMovies() {
+  return fetchFromTMDB("/movie/now_playing");
+}
+
+//  Top Rated
+export async function getTopRatedMovies() {
+  return fetchFromTMDB("/movie/top_rated");
+}
 
 
 //  SEARCH BY TITLE (NO CHANGE)

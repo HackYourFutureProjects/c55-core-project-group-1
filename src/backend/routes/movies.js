@@ -1,10 +1,10 @@
 import express from 'express';
 import { searchMovies, getMovieDetails } from '../movieApi.js';
 
-const router = express.Router();
+const MoviesRouter = express.Router();
 
 // Search movies (supports genre, text search, trending, etc.)
-router.get('/search', async (req, res) => {
+MoviesRouter.get('/search', async (req, res) => {
   try {
     const { q, type } = req.query;
     if (!q && !type) {
@@ -27,7 +27,7 @@ router.get('/search', async (req, res) => {
 });
 
 // Get movie details by ID
-router.get('/:id', async (req, res) => {
+MoviesRouter.get('/:id', async (req, res) => {
   try {
     const { id } = req.params;
     if (!id) {
@@ -46,4 +46,4 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-export default router;
+export default MoviesRouter;

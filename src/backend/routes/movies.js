@@ -10,6 +10,19 @@ import {
 
 const MoviesRouter = express.Router();
 
+const GENRE_MAP = {
+  action: 28,
+  comedy: 35,
+  drama: 18,
+  'sci-fi': 878,
+  adventure: 12,
+  horror: 27,
+  romance: 10749,
+  thriller: 53,
+  animation: 16,
+  documentary: 99,
+};
+
 MoviesRouter.get('/search', async (req, res) => {
   try {
     const { q, type } = req.query;
@@ -19,9 +32,11 @@ MoviesRouter.get('/search', async (req, res) => {
     let data;
 
     switch (type) {
-      case 'genre':
-        data = await getMoviesByGenre(q);
+      case 'genre': {
+        const genreId = GENRE_MAP[q.toLowerCase()] ?? q;
+        data = await getMoviesByGenre(genreId);
         break;
+      }
 
       case 'year':
         data = await getMoviesByYear(q);

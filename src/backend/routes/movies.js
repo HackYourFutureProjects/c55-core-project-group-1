@@ -1,5 +1,5 @@
 import express from 'express';
-import { searchMovies, getMovieDetails } from '../movieApi.js';
+import { searchMovies } from '../movieApi.js';
 
 const MoviesRouter = express.Router();
 
@@ -23,26 +23,6 @@ MoviesRouter.get('/search', async (req, res) => {
     res
       .status(500)
       .json({ error: 'Internal Server Error while searching movies' });
-  }
-});
-
-// Get movie details by ID
-MoviesRouter.get('/:id', async (req, res) => {
-  try {
-    const { id } = req.params;
-    if (!id) {
-      return res.status(400).json({ error: 'Movie ID is required' });
-    }
-    const data = await getMovieDetails(id);
-    if (!data) {
-      return res.status(404).json({ error: `Movie with ID ${id} not found` });
-    }
-    res.json(data);
-  } catch (error) {
-    console.error('Details Route Error:', error.message);
-    res
-      .status(500)
-      .json({ error: 'Internal Server Error fetching movie details' });
   }
 });
 

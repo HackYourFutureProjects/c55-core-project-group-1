@@ -112,28 +112,3 @@ export function isMovieInWatchlist(db, movieId) {
     [movieId]
   );
 }
-
-/* 
-// removeMovieFromWatchlist: Removes a movie from watchlist by movie_id.
-export function removeMovieFromWatchlist(db, movieId) {
-  return run(
-    db,
-    'DELETE FROM watchlist WHERE movie_id = ?;',
-    [movieId]
-  );
-}
-
-// clearWatchlist: Removes all rows from watchlist.
-export async function clearWatchlist(db) {
-  const result = await run(db, 'DELETE FROM watchlist;', []);
-  return result.changes;
-}
-
-// getWatchlistCount: Gets total number of watchlist rows.
-export function getWatchlistCount(db) {
-  return get(
-    db,
-    'SELECT COUNT(*) as count FROM watchlist;'
-  );
-}
- */

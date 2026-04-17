@@ -1,19 +1,103 @@
-# Core Program Final Project
+🎬 Find My Film
+A smart movie discovery app that helps you find the perfect film based on your preferences, genres, and AI‑powered suggestions.
 
-A starter project for the Core program final project:
-  
-https://hub.hackyourfuture.nl/core-program-week-14
+🚀 Overview
+Find My Film is a full‑stack movie recommendation platform built with:
 
-## Setup
+Frontend: HTML, CSS, JavaScript
 
-1. Clone the repository
-2. Run `npm install` to install dependencies
-3. Run `npm start` to run the application
+Backend: Node.js, Express
 
-## Code quality
-- Run `npm run lint` to check for linting errors
-- Run `npm run format` to format the code with Prettier
+Database: SQLite
 
-## Tests
-Run `npm test` to run the tests
+AI Integration: LLM‑powered movie suggestions
 
+Testing: Vitest
+
+Users can explore genres, search movies, get AI recommendations, and manage a personal watchlist.
+✨ Features
+🎯 Movie Recommendations
+Get personalized movie suggestions using AI
+
+Combine LLM + TMDB API for richer results
+
+Search by genre, year, actor, title, or rating
+
+⭐ Watchlist
+Add movies to your watchlist
+
+View and manage saved movies
+
+Prevent duplicates with database constraints
+
+🧠 AI Suggestion Tool
+Describe a movie you want
+
+AI returns 5 tailored recommendations
+
+Clean UI for browsing results
+
+🗂️ Preferences
+Choose your favorite genres
+
+Future‑ready for user profiles
+🏗️ Project Structure
+project/
+│
+├── frontend/
+│   ├── index.html
+│   ├── styles.css
+│   └── script.js
+│
+├── src/backend/
+│   ├── server.js
+│   ├── db.js
+│   ├── movieApi.js
+│   ├── llm.js
+│   ├── routes/
+│   │   ├── llmRoutes.js
+│   │   ├── movies.js
+│   │   └── watchlist.js
+│   └── database/
+│       ├── movies_recommendation.db
+│       └── setup.sql
+│
+├── tests/
+│   └── watchlist.test.js
+│
+├── package.json
+└── README.md
+🧪 Testing
+This project uses Vitest for unit testing.
+
+Run all tests:
+npm test
+Watchlist routes are fully covered with mock database tests.
+▶️ Running the Project
+1. Install dependencies
+npm install
+2. Start the backend
+npm start
+3. Open the frontend
+Visit: http://localhost:3000
+🗄️ Database
+SQLite database is stored in:
+src/backend/database/movies_recommendation.db
+
+Tables include:
+
+watchlist
+
+preferences
+
+(future) users
+
+Setup SQL is located in setup.sql.
+🧰 Technologies Used
+Layer	Tech
+Frontend	HTML, CSS, JavaScript
+Backend	Node.js, Express
+Database	SQLite
+AI	LLM (via API)
+Testing	Vitest
+Tools	Prettier, ESLint

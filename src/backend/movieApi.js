@@ -5,8 +5,6 @@ dotenv.config();
 const API_KEY = process.env.TMDB_API_KEY;
 const BASE_URL = "https://api.themoviedb.org/3";
 
-console.log("API KEY loaded:", !!API_KEY);
-
 // Helper
 async function fetchFromTMDB(endpoint) {
   try {

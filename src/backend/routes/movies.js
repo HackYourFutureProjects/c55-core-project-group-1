@@ -27,7 +27,7 @@ MoviesRouter.get('/search', async (req, res) => {
   try {
     const { q, type } = req.query;
 
-    if (!q) return res.status(400).json({ error: 'Query is required' });
+    if (!q) return res.status(400).json({ error: 'Search query is required' });
 
     let data;
 

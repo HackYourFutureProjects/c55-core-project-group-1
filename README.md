@@ -1,47 +1,49 @@
-🎬 Find My Film
+# 🎬 Find My Film
+
 A smart movie discovery app that helps you find the perfect film based on your preferences, genres, and AI‑powered suggestions.
 
-🚀 Overview
+---
+
+## 🚀 Overview
+
 Find My Film is a full‑stack movie recommendation platform built with:
 
-Frontend: HTML, CSS, JavaScript
-
-Backend: Node.js, Express
-
-Database: SQLite
-
-AI Integration: LLM‑powered movie suggestions
-
-Testing: Vitest
+* **Frontend:** HTML, CSS, JavaScript
+* **Backend:** Node.js, Express
+* **Database:** SQLite
+* **AI Integration:** LLM‑powered movie suggestions
+* **Testing:** Vitest
 
 Users can explore genres, search movies, get AI recommendations, and manage a personal watchlist.
-✨ Features
-🎯 Movie Recommendations
-Get personalized movie suggestions using AI
 
-Combine LLM + TMDB API for richer results
+---
 
-Search by genre, year, actor, title, or rating
+## ✨ Features
 
-⭐ Watchlist
-Add movies to your watchlist
+### 🎯 Movie Recommendations
+* Get personalized movie suggestions using AI
+* Combine LLM + TMDB API for richer results
+* Search by genre, year, actor, title, or rating
 
-View and manage saved movies
+### ⭐ Watchlist
+* Add movies to your watchlist
+* View and manage saved movies
+* Prevent duplicates with database constraints
 
-Prevent duplicates with database constraints
+### 🧠 AI Suggestion Tool
+* Describe a movie you want
+* AI returns 5 tailored recommendations
+* Clean UI for browsing results
 
-🧠 AI Suggestion Tool
-Describe a movie you want
+### 🗂️ Preferences
+* Choose your favorite genres
+* Future‑ready for user profiles
 
-AI returns 5 tailored recommendations
+---
 
-Clean UI for browsing results
+## 🏗️ Project Structure
 
-🗂️ Preferences
-Choose your favorite genres
-
-Future‑ready for user profiles
-🏗️ Project Structure
+```text
 project/
 │
 ├── frontend/
@@ -67,37 +69,69 @@ project/
 │
 ├── package.json
 └── README.md
-🧪 Testing
-This project uses Vitest for unit testing.
+```
 
-Run all tests:
-npm test
-Watchlist routes are fully covered with mock database tests.
-▶️ Running the Project
-1. Install dependencies
+---
+
+## ▶️ Running the Project
+
+**1. Install dependencies**
+
+```bash
 npm install
-2. Start the backend
+```
+
+**2. Start the backend**
+
+```bash
 npm start
-3. Open the frontend
-Visit: http://localhost:3000
-🗄️ Database
+```
+
+**3. Open the frontend**
+
+Visit: [http://localhost:3000](http://localhost:3000)
+
+---
+
+## 🗄️ Database
+
 SQLite database is stored in:
+
+```
 src/backend/database/movies_recommendation.db
+```
 
 Tables include:
 
-watchlist
+* `watchlist`
+* `preferences`
+* `users` (future)
 
-preferences
+Setup SQL is located in `setup.sql`.
 
-(future) users
+---
 
-Setup SQL is located in setup.sql.
-🧰 Technologies Used
-Layer	Tech
-Frontend	HTML, CSS, JavaScript
-Backend	Node.js, Express
-Database	SQLite
-AI	LLM (via API)
-Testing	Vitest
-Tools	Prettier, ESLint
+## 🧰 Technologies Used
+
+| Layer    | Tech                   |
+|----------|------------------------|
+| Frontend | HTML, CSS, JavaScript  |
+| Backend  | Node.js, Express       |
+| Database | SQLite                 |
+| AI       | LLM (via API)          |
+| Testing  | Vitest                 |
+| Tools    | Prettier, ESLint       |
+
+---
+
+## 🧪 Testing
+
+This project uses **Vitest** for unit testing.
+
+Run all tests:
+
+```bash
+npm test
+```
+
+Watchlist routes are fully covered with mock database tests.

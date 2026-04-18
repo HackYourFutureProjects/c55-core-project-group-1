@@ -38,7 +38,7 @@ export function closeDb(db) {
   });
 }
 
-// run: Internal helper for SQL commands that change data (INSERT, UPDATE, DELETE).
+// run: Internal helper for SQL commands (INSERT, UPDATE, DELETE).
 function run(db, sql, params = []) {
   return new Promise((resolve, reject) => {
     db.run(sql, params, function onRun(error) {
@@ -51,6 +51,7 @@ function run(db, sql, params = []) {
     });
   });
 }
+
 // get: Internal helper to fetch one row.
 function get(db, sql, params = []) {
   return new Promise((resolve, reject) => {
@@ -78,6 +79,10 @@ function all(db, sql, params = []) {
     });
   });
 }
+
+/////////////////////////////////////////////////////
+// 🎬 WATCHLIST FUNCTIONS
+/////////////////////////////////////////////////////
 
 // addMovieToWatchlist: Adds one movie_id to the watchlist table
 export async function addMovieToWatchlist(db, movieId) {
@@ -113,21 +118,16 @@ export function isMovieInWatchlist(db, movieId) {
   );
 }
 
-
-
-//  PREFERENCES FUNCTIONS /////////////////
+/////////////////////////////////////////////////////
+// 🎯 PREFERENCES FUNCTIONS
+/////////////////////////////////////////////////////
 
 // getPreferences: Fetch all preferred genres
-
 export async function getPreferences(db) {
-
   const rows = await all(
-
     db,
-
     'SELECT genre FROM preferences;'
-
   );
 
-  return rows.map(row => row.genre); 
+  return rows.map(row => row.genre);
 }

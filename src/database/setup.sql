@@ -6,6 +6,6 @@ CREATE TABLE watchlist (
 
 CREATE TABLE preferences (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    movie_id INTEGER NOT NULL,
-    UNIQUE(movie_id)
+    genre TEXT NOT NULL,
+    UNIQUE(genre)
 );

@@ -1,5 +1,5 @@
 import express from 'express';
-import db from '../db.js';
+import db, { addMovieToWatchlist } from '../db.js';
 
 const router = express.Router();
 
@@ -23,7 +23,7 @@ router.post('/', async (req, res) => {
   }
 
   try {
-    await db.run('INSERT INTO watchlist (movie_id) VALUES (?)', movie_id);
+    await addMovieToWatchlist(movie_id);
     res.json({ success: true, movie_id });
   } catch (error) {
     if (error.message.includes('UNIQUE')) {

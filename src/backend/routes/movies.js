@@ -8,7 +8,7 @@ import {
   getMoviesByActor,
 } from '../movieApi.js';
 
-/////////////////////////////////////////////////////
+
 // Shared genre mapping used for search filters and recommendations
 import { GENRE_MAP } from '../utils/genreMap.js';
 

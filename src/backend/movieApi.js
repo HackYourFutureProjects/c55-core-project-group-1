@@ -122,7 +122,6 @@ export async function searchActor(query) {
 /////////////////////////////////////////////////////
 // Fetch recommended movies based on user preferred genres using TMDB API
 
-
 export async function getRecommendedMovies(genres) {
   try {
     if (!genres || !Array.isArray(genres) || genres.length === 0) {

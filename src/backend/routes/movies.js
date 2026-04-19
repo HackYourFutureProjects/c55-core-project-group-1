@@ -6,6 +6,7 @@ import {
   getMoviesByRating,
   searchActor,
   getMoviesByActor,
+  getMovieById,
 } from '../movieApi.js';
 
 const MoviesRouter = express.Router();
@@ -27,10 +28,9 @@ MoviesRouter.get('/search', async (req, res) => {
   try {
     const { q, type } = req.query;
 
-    //if (!q) return res.status(400).json({ error: 'Query is required' });
     if (!q) {
-  return res.status(400).json({ error: 'Search query is required' });
-}
+      return res.status(400).json({ error: 'Search query is required' });
+    }
 
     let data;
 
@@ -65,6 +65,16 @@ MoviesRouter.get('/search', async (req, res) => {
   } catch (error) {
     console.error('Search Route Error:', error.message);
     res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+MoviesRouter.get('/:id', async (req, res) => {
+  try {
+    const movie = await getMovieById(req.params.id);
+    res.json(movie);
+  } catch (error) {
+    console.error('Search Route Error:', error.message);
+    res.status(500).json({ error: 'Failed to fetch movie' });
   }
 });
 

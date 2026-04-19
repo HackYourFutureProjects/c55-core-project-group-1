@@ -109,3 +109,17 @@ export async function searchActor(query) {
     return [];
   }
 }
+
+
+/////////////////////////////////////////////////////
+// Fetch recommended movies based on user preferred genres using TMDB API
+export async function getRecommendedMovies(genres) {
+  const genreIds = genres.join(",");
+
+  const res = await fetch(
+    `${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=${genreIds}&sort_by=popularity.desc`
+  );
+
+  const data = await res.json();
+  return data.results;
+} 

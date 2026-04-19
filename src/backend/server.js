@@ -5,12 +5,18 @@ import path from 'node:path';
 import llmRoutes from './routes/llmRoutes.js';
 import moviesRoutes from './routes/movies.js';
 
+import { createWatchlistRouter } from './routes/watchlist.js';
+import { connectDb } from './db.js';
+
 dotenv.config();
 
 const app = express();
 
 app.use(express.json());
 app.use(express.static(path.resolve('frontend')));
+
+const db = await connectDb();
+app.use('/api/watchlist', createWatchlistRouter(db));
 
 app.use('/api/llm', llmRoutes);
 

@@ -10,6 +10,10 @@ import {
 
 const MoviesRouter = express.Router();
 
+
+/////////////////////////////////////////////////////
+//GENRE_MAP: maps genre names (from user input or DB)
+// to TMDB genre IDs used in API requests 
 const GENRE_MAP = {
   action: 28,
   comedy: 35,
@@ -22,6 +26,9 @@ const GENRE_MAP = {
   animation: 16,
   documentary: 99,
 };
+///////////  
+
+
 
 MoviesRouter.get('/search', async (req, res) => {
   try {

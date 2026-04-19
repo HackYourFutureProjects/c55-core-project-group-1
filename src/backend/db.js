@@ -122,10 +122,6 @@ export function isMovieInWatchlist(db, movieId) {
 
 // getPreferences: Fetch all preferred genres
 export async function getPreferences(db) {
-  const rows = await all(
-    db,
-    'SELECT genre FROM preferences;'
-  );
-
+  const rows = await all(db, 'SELECT genre FROM preferences;');
   return rows.map(row => row.genre);
 }

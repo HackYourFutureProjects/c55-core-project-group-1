@@ -4,6 +4,7 @@ dotenv.config();
 
 /////////////////////////////////////////////////////
 // Shared genre mapping used for search filters and recommendations
+
 import { GENRE_MAP } from './utils/genreMap.js';
 
 
@@ -120,17 +121,34 @@ export async function searchActor(query) {
 
 /////////////////////////////////////////////////////
 // Fetch recommended movies based on user preferred genres using TMDB API
+
 export async function getRecommendedMovies(genres) {
-  const genreIds = genres
-    .map(g => GENRE_MAP[g.toLowerCase()])
-    .filter(Boolean)
-    .join(",");
+  try {
+    if (!genres || !Array.isArray(genres) || genres.length === 0) {
+      return [];
+    }
 
-  const res = await fetch(
-    `${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=${genreIds}&sort_by=popularity.desc`
-  );
+    const genreIds = genres
+      .map(g => GENRE_MAP[g.toLowerCase()])
+      .filter(Boolean)
+      .join(",");
 
-  const data = await res.json();
-  return data.results;
+    if (!genreIds) {
+      return [];
+    }
+
+    const res = await fetch(
+      `${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=${genreIds}&sort_by=popularity.desc`
+    );
+
+    if (!res.ok) {
+      throw new Error(`TMDB Error: ${res.status}`);
+    }
+
+    const data = await res.json();
+    return data.results || [];
+  } catch (error) {
+    console.error("Recommended Movies Error:", error.message);
+    return [];
+  }
 }
-

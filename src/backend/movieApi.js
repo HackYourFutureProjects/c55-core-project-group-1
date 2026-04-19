@@ -2,8 +2,15 @@
 import dotenv from "dotenv";
 dotenv.config();
 
+/////////////////////////////////////////////////////
+// Shared genre mapping used for search filters and recommendations
+import { GENRE_MAP } from './utils/genreMap.js';
+
+
 const API_KEY = process.env.TMDB_API_KEY;
 const BASE_URL = "https://api.themoviedb.org/3";
+
+
 
 // Helper
 async function fetchFromTMDB(endpoint) {
@@ -109,3 +116,21 @@ export async function searchActor(query) {
     return [];
   }
 }
+
+
+/////////////////////////////////////////////////////
+// Fetch recommended movies based on user preferred genres using TMDB API
+export async function getRecommendedMovies(genres) {
+  const genreIds = genres
+    .map(g => GENRE_MAP[g.toLowerCase()])
+    .filter(Boolean)
+    .join(",");
+
+  const res = await fetch(
+    `${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=${genreIds}&sort_by=popularity.desc`
+  );
+
+  const data = await res.json();
+  return data.results;
+}
+

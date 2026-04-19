@@ -8,20 +8,15 @@ import {
   getMoviesByActor,
 } from '../movieApi.js';
 
+/////////////////////////////////////////////////////
+// Shared genre mapping used for search filters and recommendations
+import { GENRE_MAP } from '../utils/genreMap.js';
+
+
+
 const MoviesRouter = express.Router();
 
-const GENRE_MAP = {
-  action: 28,
-  comedy: 35,
-  drama: 18,
-  'sci-fi': 878,
-  adventure: 12,
-  horror: 27,
-  romance: 10749,
-  thriller: 53,
-  animation: 16,
-  documentary: 99,
-};
+
 
 MoviesRouter.get('/search', async (req, res) => {
   try {

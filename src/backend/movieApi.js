@@ -5,6 +5,8 @@ dotenv.config();
 const API_KEY = process.env.TMDB_API_KEY;
 const BASE_URL = "https://api.themoviedb.org/3";
 
+
+
 // Helper
 async function fetchFromTMDB(endpoint) {
   try {
@@ -114,7 +116,10 @@ export async function searchActor(query) {
 /////////////////////////////////////////////////////
 // Fetch recommended movies based on user preferred genres using TMDB API
 export async function getRecommendedMovies(genres) {
-  const genreIds = genres.join(",");
+  const genreIds = genres
+    .map(g => GENRE_MAP[g.toLowerCase()])
+    .filter(Boolean)
+    .join(",");
 
   const res = await fetch(
     `${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=${genreIds}&sort_by=popularity.desc`
@@ -122,4 +127,5 @@ export async function getRecommendedMovies(genres) {
 
   const data = await res.json();
   return data.results;
-} 
+}
+

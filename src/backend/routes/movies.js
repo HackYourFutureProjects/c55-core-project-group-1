@@ -8,25 +8,13 @@ import {
   getMoviesByActor,
 } from '../movieApi.js';
 
-const MoviesRouter = express.Router();
-
-
 /////////////////////////////////////////////////////
-//GENRE_MAP: maps genre names (from user input or DB)
-// to TMDB genre IDs used in API requests 
-const GENRE_MAP = {
-  action: 28,
-  comedy: 35,
-  drama: 18,
-  'sci-fi': 878,
-  adventure: 12,
-  horror: 27,
-  romance: 10749,
-  thriller: 53,
-  animation: 16,
-  documentary: 99,
-};
-///////////  
+// Shared genre mapping used for search filters and recommendations
+import { GENRE_MAP } from '../utils/genreMap.js';
+
+
+
+const MoviesRouter = express.Router();
 
 
 

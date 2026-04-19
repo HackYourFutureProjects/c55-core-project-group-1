@@ -2,6 +2,11 @@
 import dotenv from "dotenv";
 dotenv.config();
 
+/////////////////////////////////////////////////////
+// Shared genre mapping used for search filters and recommendations
+import { GENRE_MAP } from './utils/genreMap.js';
+
+
 const API_KEY = process.env.TMDB_API_KEY;
 const BASE_URL = "https://api.themoviedb.org/3";
 

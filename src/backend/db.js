@@ -81,8 +81,7 @@ function all(db, sql, params = []) {
 }
 
 /////////////////////////////////////////////////////
-// 🎬 WATCHLIST FUNCTIONS
-/////////////////////////////////////////////////////
+// WATCHLIST FUNCTIONS
 
 // addMovieToWatchlist: Adds one movie_id to the watchlist table
 export async function addMovieToWatchlist(db, movieId) {
@@ -119,15 +118,10 @@ export function isMovieInWatchlist(db, movieId) {
 }
 
 /////////////////////////////////////////////////////
-// 🎯 PREFERENCES FUNCTIONS
-/////////////////////////////////////////////////////
+// PREFERENCES FUNCTIONS
 
 // getPreferences: Fetch all preferred genres
 export async function getPreferences(db) {
-  const rows = await all(
-    db,
-    'SELECT genre FROM preferences;'
-  );
-
+  const rows = await all(db, 'SELECT genre FROM preferences;');
   return rows.map(row => row.genre);
 }

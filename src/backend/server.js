@@ -14,7 +14,10 @@ app.use(express.static(path.resolve('frontend')));
 
 app.use('/api/llm', llmRoutes);
 
+// NOTE: movie routes (including /recommendations) are defined in routes/movies.js
 app.use('/api/movies', moviesRoutes);
+
+
 app.get('/health', (_request, response) => {
   response.status(200).json({ ok: true });
 });
@@ -31,3 +34,6 @@ const server = app.listen(PORT, () => {
 server.on('error', (error) => {
   console.error('Server failed to start:', error.message);
 });
+
+
+

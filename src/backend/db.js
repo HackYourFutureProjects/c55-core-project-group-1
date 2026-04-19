@@ -100,6 +100,21 @@ export async function addMovieToWatchlist(db, movieId) {
   }
 }
 
+// removeMovieFromWatchlist: Removes one movie_id from the watchlist table
+export async function removeMovieFromWatchlist(db, movieId) {
+  const result = await run(
+    db,
+    'DELETE FROM watchlist WHERE movie_id = ?;',
+    [movieId]
+  );
+
+  if (result.changes === 0) {
+    return { success: false, message: 'Movie not found in watchlist', movieId };
+  }
+
+  return { success: true, movieId };
+}
+
 // getAllWatchlistMovies: Fetches all saved movie IDs in watchlist.
 export function getAllWatchlistMovies(db) {
   return all(

@@ -3,15 +3,63 @@ const suggestSection = document.querySelector('.suggest');
 const suggestInput = suggestSection?.querySelector('input');
 const suggestButton = suggestSection?.querySelector('button');
 const movieContainer = document.getElementById('movieContainer');
+const watchlistMovieIds = new Set();
+
+function getWatchlistButtonMarkup(movieId) {
+  if (!Number.isInteger(movieId) || movieId <= 0) {
+    return '<button class="watchlist-btn" type="button" disabled>Add unavailable</button>';
+  }
+
+  const isInWatchlist = watchlistMovieIds.has(movieId);
+  const label = isInWatchlist ? 'Remove from Watchlist' : '+ Add to Watchlist';
+  const action = isInWatchlist ? 'remove' : 'add';
+
+  return `<button class="watchlist-btn" data-id="${movieId}" data-action="${action}">${label}</button>`;
+}
+
+function updateWatchlistButtonState(button, movieId) {
+  const isInWatchlist = watchlistMovieIds.has(movieId);
+  button.dataset.action = isInWatchlist ? 'remove' : 'add';
+  button.textContent = isInWatchlist
+    ? 'Remove from Watchlist'
+    : '+ Add to Watchlist';
+  button.disabled = false;
+}
+
+async function loadWatchlistState() {
+  try {
+    const response = await fetch('/api/watchlist');
+    if (!response.ok) {
+      throw new Error(`Could not load watchlist: ${response.status}`);
+    }
+
+    const rows = await response.json();
+    watchlistMovieIds.clear();
+
+    if (Array.isArray(rows)) {
+      rows.forEach((row) => {
+        const movieId = Number.parseInt(row.movie_id, 10);
+        if (Number.isInteger(movieId) && movieId > 0) {
+          watchlistMovieIds.add(movieId);
+        }
+      });
+    }
+  } catch (error) {
+    console.error(error.message || 'Failed to load watchlist state.');
+  }
+}
 
 function createMovieCard(movie) {
   const yearLabel = Number.isInteger(movie.year) ? ` (${movie.year})` : '';
+  const movieId = Number.parseInt(movie.id, 10);
+  const watchlistButton = getWatchlistButtonMarkup(movieId);
 
   return `
 		<article class="movie-card">
 			<h3>${movie.title}${yearLabel}</h3>
 			<p><strong>Genre:</strong> ${movie.genre}</p>
 			<p>${movie.reason}</p>
+      ${watchlistButton}
 		</article>
 	`;
 }
@@ -43,6 +91,71 @@ function renderSuggestions(source, suggestions) {
 		${cards}
 	`;
 }
+
+async function addMovieToWatchlist(movieId) {
+  const response = await fetch('/api/watchlist', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ movie_id: movieId }),
+  });
+
+  const payload = await response.json();
+  if (!response.ok) {
+    throw new Error(payload.error || 'Could not add movie to watchlist.');
+  }
+
+  watchlistMovieIds.add(movieId);
+}
+
+async function removeMovieFromWatchlist(movieId) {
+  const response = await fetch(`/api/watchlist/${movieId}`, {
+    method: 'DELETE',
+  });
+
+  const payload = await response.json();
+  if (!response.ok) {
+    throw new Error(payload.error || 'Could not remove movie from watchlist.');
+  }
+
+  watchlistMovieIds.delete(movieId);
+}
+
+async function toggleWatchlist(button) {
+  const movieId = Number.parseInt(button.dataset.id, 10);
+
+  if (!Number.isInteger(movieId) || movieId <= 0) {
+    return;
+  }
+
+  button.disabled = true;
+  const action = button.dataset.action;
+  button.textContent = action === 'remove' ? 'Removing...' : 'Adding...';
+
+  try {
+    if (action === 'remove') {
+      await removeMovieFromWatchlist(movieId);
+    } else {
+      await addMovieToWatchlist(movieId);
+    }
+
+    updateWatchlistButtonState(button, movieId);
+  } catch (error) {
+    updateWatchlistButtonState(button, movieId);
+    alert(error.message || 'Failed to add movie to watchlist.');
+  }
+}
+
+movieContainer?.addEventListener('click', (event) => {
+  const button = event.target.closest('.watchlist-btn');
+
+  if (!button) {
+    return;
+  }
+
+  toggleWatchlist(button);
+});
 
 async function handleSuggestClick() {
   const prompt = suggestInput?.value?.trim();
@@ -82,6 +195,7 @@ async function handleSuggestClick() {
       return;
     }
 
+    await loadWatchlistState();
     renderSuggestions(payload.source, payload.suggestions);
   } catch (error) {
     renderStatus(
@@ -133,7 +247,7 @@ function displayMovies(movies) {
         <h3>${movie.title} (${year})</h3>
         <p><strong>Rating:</strong> ⭐ ${rating}</p>
         <p>${movie.overview?.slice(0, 120) || 'No description available'}...</p>
-        <button class="watchlist-btn" data-id="${movie.id}">+ Add to Watchlist</button>
+        ${getWatchlistButtonMarkup(Number.parseInt(movie.id, 10))}
       </article>
     `;
     })
@@ -146,6 +260,7 @@ function displayMovies(movies) {
 async function loadMovies(type, query) {
   movieContainer.innerHTML = '<p>Fetching movies...</p>';
   try {
+    await loadWatchlistState();
     const params = new URLSearchParams({ type, q: query });
     const res = await fetch(`/api/movies/search?${params}`);
 
@@ -179,10 +294,13 @@ searchInput?.addEventListener('keydown', (e) => {
 
 
 ////// AI Recommendations Logic
-document.getElementById("ai-btn").addEventListener("click", async () => {
-  const res = await fetch("/api/movies/recommendations");
+document.getElementById('ai-btn')?.addEventListener('click', async () => {
+  const res = await fetch('/api/movies/recommendations');
   const movies = await res.json();
 
+  await loadWatchlistState();
   console.log(movies);
-  displayMovies(movies); 
+  displayMovies(movies);
 });
+
+loadWatchlistState();

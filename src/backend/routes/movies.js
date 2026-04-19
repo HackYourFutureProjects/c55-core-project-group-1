@@ -8,6 +8,12 @@ import {
   getMoviesByActor,
   getMovieById,
 } from '../movieApi.js';
+import {
+  connectDb,
+  closeDb,
+  getAllWatchlistMovies,
+  getPreferences,
+} from '../db.js';
 
 const MoviesRouter = express.Router();
 
@@ -65,6 +71,32 @@ MoviesRouter.get('/search', async (req, res) => {
   } catch (error) {
     console.error('Search Route Error:', error.message);
     res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+MoviesRouter.get('/watchlist-display', async (_req, res) => {
+  let db;
+
+  try {
+    db = await connectDb();
+    const rows = await getAllWatchlistMovies(db);
+
+    if (rows.length === 0) {
+      return res.json([]);
+    }
+
+    const movies = await Promise.all(
+      rows.map(async ({ movie_id }) => getMovieById(movie_id))
+    );
+
+    return res.json(movies.filter(Boolean));
+  } catch (error) {
+    console.error('Watchlist display error:', error.message);
+    return res.status(500).json({ error: 'Failed to load watchlist movies' });
+  } finally {
+    if (db) {
+      await closeDb(db);
+    }
   }
 });
 

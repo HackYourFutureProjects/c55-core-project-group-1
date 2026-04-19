@@ -3,6 +3,7 @@ const suggestSection = document.querySelector('.suggest');
 const suggestInput = suggestSection?.querySelector('input');
 const suggestButton = suggestSection?.querySelector('button');
 const movieContainer = document.getElementById('movieContainer');
+const viewWatchlistBtn = document.getElementById('viewWatchlistBtn');
 
 function createMovieCard(movie) {
   const yearLabel = Number.isInteger(movie.year) ? ` (${movie.year})` : '';
@@ -106,13 +107,11 @@ const searchInput = document.querySelector('.search-control input');
 const searchButton = document.querySelector('.search-control button');
 
 //  Show movies in the UI
-// When mode is 'watchlist', each card shows a Remove button instead of Add to Watchlist.
-function displayMovies(movies, mode = 'search') {
+function displayMovies(movies) {
   if (!movieContainer) return;
 
   if (!movies || movies.length === 0) {
-    movieContainer.innerHTML =
-      '<p>No movies found. Try a different search!</p>';
+    movieContainer.innerHTML = '<p>No movies found. Try a different search!</p>';
     return;
   }
 
@@ -134,17 +133,30 @@ function displayMovies(movies, mode = 'search') {
         <h3>${movie.title} (${year})</h3>
         <p><strong>Rating:</strong> ⭐ ${rating}</p>
         <p>${movie.overview?.slice(0, 120) || 'No description available'}...</p>
-        ${
-          mode === 'watchlist'
-            ? `<button class="remove-btn" data-id="${movie.id}">🗑 Remove</button>`
-            : `<button class="watchlist-btn" data-id="${movie.id}">+ Add to Watchlist</button>`
-        }
       </article>
     `;
     })
     .join('');
 
   movieContainer.innerHTML = cards;
+}
+
+function renderWatchlistMovie(movie) {
+  const posterUrl = movie.poster_path
+    ? `https://image.tmdb.org/t/p/w300${movie.poster_path}`
+    : 'https://via.placeholder.com/300x450?text=No+Poster';
+
+  const rating = movie.vote_average ? movie.vote_average.toFixed(1) : 'N/A';
+  const year = movie.release_date ? movie.release_date.split('-')[0] : 'Unknown';
+
+  return `
+    <article class="movie-card">
+      <img src="${posterUrl}" alt="${movie.title}" loading="lazy" />
+      <h3>${movie.title} (${year})</h3>
+      <p><strong>Rating:</strong> ⭐ ${rating}</p>
+      <p>${movie.overview?.slice(0, 120) || 'No description available'}...</p>
+    </article>
+  `;
 }
 
 //  Bring movies from the backend
@@ -181,33 +193,36 @@ searchInput?.addEventListener('keydown', (e) => {
   if (e.key === 'Enter') searchButton?.click();
 });
 
-//// Logic for handling the watchlist feature
-const viewWatchlistBtn = document.getElementById('viewWatchlistBtn');
-
 viewWatchlistBtn?.addEventListener('click', async () => {
-  try {
-    // from backend, get all movie_ids in the watchlist
-    const res = await fetch('/api/watchlist');
-    const data = await res.json(); // [{ movie_id: 123 }, ...]
+  if (!movieContainer) {
+    return;
+  }
 
-    if (data.length === 0) {
+  try {
+    movieContainer.innerHTML = '<p>Loading watchlist...</p>';
+
+    const response = await fetch('/api/movies/watchlist-display');
+    if (!response.ok) {
+      throw new Error('Failed to load watchlist movies.');
+    }
+
+    const movies = await response.json();
+
+    if (!Array.isArray(movies) || movies.length === 0) {
       movieContainer.innerHTML = '<p>Your watchlist is empty!</p>';
       return;
     }
 
-    // every movie_id, fetch the full movie details from the backend
-    const movieDetails = [];
-
-    for (const { movie_id } of data) {
-      const res = await fetch(`/api/movies/${movie_id}`);
-      const movie = await res.json();
-      movieDetails.push(movie);
-    }
-
-    // show the movies in the UI using the same displayMovies function
-    displayMovies(movieDetails, 'watchlist');
+    movieContainer.innerHTML = movies.map(renderWatchlistMovie).join('');
   } catch (error) {
     console.error('Error loading watchlist:', error);
     movieContainer.innerHTML = '<p>Failed to load watchlist.</p>';
   }
+});
+
+document.getElementById('ai-btn')?.addEventListener('click', async () => {
+  const res = await fetch('/api/movies/recommendations');
+  const movies = await res.json();
+
+  displayMovies(movies);
 });

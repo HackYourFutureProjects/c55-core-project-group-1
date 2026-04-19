@@ -106,7 +106,8 @@ const searchInput = document.querySelector('.search-control input');
 const searchButton = document.querySelector('.search-control button');
 
 //  Show movies in the UI
-function displayMovies(movies) {
+// When mode is 'watchlist', each card shows a Remove button instead of Add to Watchlist.
+function displayMovies(movies, mode = 'search') {
   if (!movieContainer) return;
 
   if (!movies || movies.length === 0) {
@@ -133,7 +134,11 @@ function displayMovies(movies) {
         <h3>${movie.title} (${year})</h3>
         <p><strong>Rating:</strong> ⭐ ${rating}</p>
         <p>${movie.overview?.slice(0, 120) || 'No description available'}...</p>
-        <button class="watchlist-btn" data-id="${movie.id}">+ Add to Watchlist</button>
+        ${
+          mode === 'watchlist'
+            ? `<button class="remove-btn" data-id="${movie.id}">🗑 Remove</button>`
+            : `<button class="watchlist-btn" data-id="${movie.id}">+ Add to Watchlist</button>`
+        }
       </article>
     `;
     })
@@ -174,4 +179,35 @@ searchButton?.addEventListener('click', () => {
 
 searchInput?.addEventListener('keydown', (e) => {
   if (e.key === 'Enter') searchButton?.click();
+});
+
+//// Logic for handling the watchlist feature
+const viewWatchlistBtn = document.getElementById('viewWatchlistBtn');
+
+viewWatchlistBtn?.addEventListener('click', async () => {
+  try {
+    // from backend, get all movie_ids in the watchlist
+    const res = await fetch('/api/watchlist');
+    const data = await res.json(); // [{ movie_id: 123 }, ...]
+
+    if (data.length === 0) {
+      movieContainer.innerHTML = '<p>Your watchlist is empty!</p>';
+      return;
+    }
+
+    // every movie_id, fetch the full movie details from the backend
+    const movieDetails = [];
+
+    for (const { movie_id } of data) {
+      const res = await fetch(`/api/movies/${movie_id}`);
+      const movie = await res.json();
+      movieDetails.push(movie);
+    }
+
+    // show the movies in the UI using the same displayMovies function
+    displayMovies(movieDetails, 'watchlist');
+  } catch (error) {
+    console.error('Error loading watchlist:', error);
+    movieContainer.innerHTML = '<p>Failed to load watchlist.</p>';
+  }
 });

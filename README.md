@@ -75,6 +75,14 @@ project/
 
 ## ▶️ Running the Project
 
+### 🌐 Live Demo
+Try it instantly — no setup required:
+👉 [find-my-film.onrender.com](https://find-my-film.onrender.com/)
+
+---
+
+### 💻 Run Locally
+
 **1. Install dependencies**
 
 ```bash

@@ -1,9 +1,9 @@
 /* global process */
-import dotenv from "dotenv";
+import dotenv from 'dotenv';
 dotenv.config();
 
 const API_KEY = process.env.TMDB_API_KEY;
-const BASE_URL = "https://api.themoviedb.org/3";
+const BASE_URL = 'https://api.themoviedb.org/3';
 
 // Helper
 async function fetchFromTMDB(endpoint) {
@@ -17,31 +17,30 @@ async function fetchFromTMDB(endpoint) {
     const data = await res.json();
     return data.results;
   } catch (error) {
-    console.error("Fetch error:", error.message);
+    console.error('Fetch error:', error.message);
     return [];
   }
 }
 
 //  Popular Movies
 export async function getPopularMovies() {
-  return fetchFromTMDB("/movie/popular");
+  return fetchFromTMDB('/movie/popular');
 }
 
 // Upcoming Movies
 export async function getUpcomingMovies() {
-  return fetchFromTMDB("/movie/upcoming");
+  return fetchFromTMDB('/movie/upcoming');
 }
 
 //  Now Playing
 export async function getNowPlayingMovies() {
-  return fetchFromTMDB("/movie/now_playing");
+  return fetchFromTMDB('/movie/now_playing');
 }
 
 //  Top Rated
 export async function getTopRatedMovies() {
-  return fetchFromTMDB("/movie/top_rated");
+  return fetchFromTMDB('/movie/top_rated');
 }
-
 
 //  SEARCH BY TITLE (NO CHANGE)
 
@@ -58,12 +57,10 @@ export async function searchMovies(query) {
     const data = await res.json();
     return data.results;
   } catch (error) {
-    console.error("Search error:", error.message);
+    console.error('Search error:', error.message);
     return [];
   }
 }
-
-
 
 //  FILTERS (NEW FEATURES)
 
@@ -105,7 +102,15 @@ export async function searchActor(query) {
     const data = await res.json();
     return data.results;
   } catch (error) {
-    console.error("Actor search error:", error.message);
+    console.error('Actor search error:', error.message);
     return [];
   }
+}
+
+// NOTE: This function does NOT use fetchFromTMDB helper because that helper
+// returns data.results, but the /movie/:id endpoint returns a single object directly.
+export async function getMovieById(movieId) {
+  const res = await fetch(`${BASE_URL}/movie/${movieId}?api_key=${API_KEY}`);
+  const data = await res.json();
+  return data;
 }

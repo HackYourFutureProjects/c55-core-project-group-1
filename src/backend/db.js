@@ -7,10 +7,17 @@ const DB_FILE = path.resolve('src/database/movies_recommendation.db');
 export function connectDb(dbPath = DB_FILE) {
   return new Promise((resolve, reject) => {
     const db = new sqlite3.Database(dbPath, (error) => {
-      if (error) return reject(error);
+      if (error) {
+        reject(error);
+        return;
+      }
 
       db.run('PRAGMA foreign_keys = ON;', (pragmaError) => {
-        if (pragmaError) return reject(pragmaError);
+        if (pragmaError) {
+          reject(pragmaError);
+          return;
+        }
+
         resolve(db);
       });
     });
@@ -20,72 +27,81 @@ export function connectDb(dbPath = DB_FILE) {
 // closeDb: Closes an open SQLite connection.
 export function closeDb(db) {
   return new Promise((resolve, reject) => {
-    if (!db) return resolve(); // safety check
-
     db.close((error) => {
-      if (error) return reject(error);
+      if (error) {
+        reject(error);
+        return;
+      }
+
       resolve();
     });
   });
 }
 
-// run: helper for INSERT, UPDATE, DELETE
+// run: Internal helper for SQL commands (INSERT, UPDATE, DELETE).
 function run(db, sql, params = []) {
   return new Promise((resolve, reject) => {
-    db.run(sql, params, function (error) {
-      if (error) return reject(error);
+    db.run(sql, params, function onRun(error) {
+      if (error) {
+        reject(error);
+        return;
+      }
+
       resolve({ lastID: this.lastID, changes: this.changes });
     });
   });
 }
 
-// get: helper for single row
+// get: Internal helper to fetch one row.
 function get(db, sql, params = []) {
   return new Promise((resolve, reject) => {
     db.get(sql, params, (error, row) => {
-      if (error) return reject(error);
+      if (error) {
+        reject(error);
+        return;
+      }
+
       resolve(row ?? null);
     });
   });
 }
 
-// all: helper for multiple rows
+// all: Internal helper to fetch multiple rows.
 function all(db, sql, params = []) {
   return new Promise((resolve, reject) => {
     db.all(sql, params, (error, rows) => {
-      if (error) return reject(error);
+      if (error) {
+        reject(error);
+        return;
+      }
+
       resolve(rows || []);
     });
   });
 }
 
-// addMovieToWatchlist
-export async function addMovieToWatchlist(db, movieId) {
-  if (!movieId) {
-    throw new Error('movieId is required');
-  }
+/////////////////////////////////////////////////////
+// 🎬 WATCHLIST FUNCTIONS
+/////////////////////////////////////////////////////
 
+// addMovieToWatchlist: Adds one movie_id to the watchlist table
+export async function addMovieToWatchlist(db, movieId) {
   try {
     await run(
       db,
       'INSERT INTO watchlist (movie_id) VALUES (?);',
       [movieId]
     );
-
     return { success: true, movieId };
   } catch (error) {
     if (error.message.includes('UNIQUE constraint failed')) {
-      return {
-        success: false,
-        message: 'Movie already in watchlist',
-        movieId,
-      };
+      return { success: false, message: 'Movie already in watchlist', movieId };
     }
     throw error;
   }
 }
 
-// get all movies
+// getAllWatchlistMovies: Fetches all saved movie IDs in watchlist.
 export function getAllWatchlistMovies(db) {
   return all(
     db,
@@ -93,17 +109,25 @@ export function getAllWatchlistMovies(db) {
   );
 }
 
-// check if movie exists (returns boolean)
-export async function isMovieInWatchlist(db, movieId) {
-  if (!movieId) {
-    throw new Error('movieId is required');
-  }
-
-  const result = await get(
+// isMovieInWatchlist: Checks if a movie already exists in watchlist.
+export function isMovieInWatchlist(db, movieId) {
+  return get(
     db,
     'SELECT 1 FROM watchlist WHERE movie_id = ? LIMIT 1;',
     [movieId]
   );
+}
 
-  return !!result;
+/////////////////////////////////////////////////////
+// 🎯 PREFERENCES FUNCTIONS
+/////////////////////////////////////////////////////
+
+// getPreferences: Fetch all preferred genres
+export async function getPreferences(db) {
+  const rows = await all(
+    db,
+    'SELECT genre FROM preferences;'
+  );
+
+  return rows.map(row => row.genre);
 }

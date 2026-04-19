@@ -8,26 +8,25 @@ import {
   getMoviesByActor,
 } from '../movieApi.js';
 
+
+// Shared genre mapping used for search filters and recommendations
+import { GENRE_MAP } from '../utils/genreMap.js';
+
+import { connectDb, getPreferences } from '../db.js';
+import { getRecommendedMovies } from '../movieApi.js';
+
 const MoviesRouter = express.Router();
 
-const GENRE_MAP = {
-  action: 28,
-  comedy: 35,
-  drama: 18,
-  'sci-fi': 878,
-  adventure: 12,
-  horror: 27,
-  romance: 10749,
-  thriller: 53,
-  animation: 16,
-  documentary: 99,
-};
+/////////////////////////////////////////////////////
 
+// SEARCH ROUTE
 MoviesRouter.get('/search', async (req, res) => {
   try {
     const { q, type } = req.query;
 
-    if (!q) return res.status(400).json({ error: 'Search query is required' });
+    if (!q) {
+      return res.status(400).json({ error: 'Search query is required' });
+    }
 
     let data;
 
@@ -53,7 +52,7 @@ MoviesRouter.get('/search', async (req, res) => {
         break;
       }
 
-      default: // title
+      default:
         data = await searchMovies(q);
         break;
     }
@@ -62,6 +61,25 @@ MoviesRouter.get('/search', async (req, res) => {
   } catch (error) {
     console.error('Search Route Error:', error.message);
     res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
+/////////////////////////////////////////////////////
+// AI RECOMMENDATIONS ROUTE
+
+MoviesRouter.get('/recommendations', async (req, res) => {
+  try {
+    const db = await connectDb();
+
+    const genres = await getPreferences(db);
+
+    const movies = await getRecommendedMovies(genres);
+
+    res.json(movies);
+  } catch (error) {
+    console.error('Recommendation Error:', error);
+    res.status(500).json({ error: 'Failed to get recommendations' });
   }
 });
 

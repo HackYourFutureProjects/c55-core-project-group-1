@@ -18,8 +18,6 @@ import {
 
 // Shared genre mapping used for search filters and recommendations
 import { GENRE_MAP } from '../utils/genreMap.js';
-
-import { connectDb, getPreferences } from '../db.js';
 import { getRecommendedMovies } from '../movieApi.js';
 
 const MoviesRouter = express.Router();
@@ -126,5 +124,3 @@ MoviesRouter.get('/recommendations', async (req, res) => {
     res.status(500).json({ error: 'Failed to get recommendations' });
   }
 });
-
-export default MoviesRouter;

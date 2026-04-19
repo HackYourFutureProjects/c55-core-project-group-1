@@ -48,6 +48,7 @@ async function loadWatchlistState() {
     console.error(error.message || 'Failed to load watchlist state.');
   }
 }
+const viewWatchlistBtn = document.getElementById('viewWatchlistBtn');
 
 function createMovieCard(movie) {
   const yearLabel = Number.isInteger(movie.year) ? ` (${movie.year})` : '';
@@ -224,8 +225,7 @@ function displayMovies(movies) {
   if (!movieContainer) return;
 
   if (!movies || movies.length === 0) {
-    movieContainer.innerHTML =
-      '<p>No movies found. Try a different search!</p>';
+    movieContainer.innerHTML = '<p>No movies found. Try a different search!</p>';
     return;
   }
 
@@ -254,6 +254,24 @@ function displayMovies(movies) {
     .join('');
 
   movieContainer.innerHTML = cards;
+}
+
+function renderWatchlistMovie(movie) {
+  const posterUrl = movie.poster_path
+    ? `https://image.tmdb.org/t/p/w300${movie.poster_path}`
+    : 'https://via.placeholder.com/300x450?text=No+Poster';
+
+  const rating = movie.vote_average ? movie.vote_average.toFixed(1) : 'N/A';
+  const year = movie.release_date ? movie.release_date.split('-')[0] : 'Unknown';
+
+  return `
+    <article class="movie-card">
+      <img src="${posterUrl}" alt="${movie.title}" loading="lazy" />
+      <h3>${movie.title} (${year})</h3>
+      <p><strong>Rating:</strong> ⭐ ${rating}</p>
+      <p>${movie.overview?.slice(0, 120) || 'No description available'}...</p>
+    </article>
+  `;
 }
 
 //  Bring movies from the backend
@@ -291,7 +309,32 @@ searchInput?.addEventListener('keydown', (e) => {
   if (e.key === 'Enter') searchButton?.click();
 });
 
+viewWatchlistBtn?.addEventListener('click', async () => {
+  if (!movieContainer) {
+    return;
+  }
 
+  try {
+    movieContainer.innerHTML = '<p>Loading watchlist...</p>';
+
+    const response = await fetch('/api/movies/watchlist-display');
+    if (!response.ok) {
+      throw new Error('Failed to load watchlist movies.');
+    }
+
+    const movies = await response.json();
+
+    if (!Array.isArray(movies) || movies.length === 0) {
+      movieContainer.innerHTML = '<p>Your watchlist is empty!</p>';
+      return;
+    }
+
+    movieContainer.innerHTML = movies.map(renderWatchlistMovie).join('');
+  } catch (error) {
+    console.error('Error loading watchlist:', error);
+    movieContainer.innerHTML = '<p>Failed to load watchlist.</p>';
+  }
+});
 
 ////// AI Recommendations Logic
 document.getElementById('ai-btn')?.addEventListener('click', async () => {

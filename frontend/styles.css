@@ -176,6 +176,22 @@ body {
   background: linear-gradient(#5edc6b, #2fa043);
 }
 
+/* Remove Button */
+.remove-btn {
+  margin: 0 10px 10px;
+  padding: 6px 12px;
+  background: linear-gradient(#e63946, #c1121f);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.remove-btn:hover {
+  background: linear-gradient(#ff4d5a, #e63946);
+}
+
 /* WATCH SECTION */
 .watch {
   margin-top: 30px;

@@ -175,3 +175,14 @@ searchButton?.addEventListener('click', () => {
 searchInput?.addEventListener('keydown', (e) => {
   if (e.key === 'Enter') searchButton?.click();
 });
+
+
+
+////// AI Recommendations Logic
+document.getElementById("ai-btn").addEventListener("click", async () => {
+  const res = await fetch("/api/movies/recommendations");
+  const movies = await res.json();
+
+  console.log(movies);
+  displayMovies(movies); 
+});

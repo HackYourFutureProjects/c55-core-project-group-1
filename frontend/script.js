@@ -50,21 +50,6 @@ async function loadWatchlistState() {
 }
 const viewWatchlistBtn = document.getElementById('viewWatchlistBtn');
 
-function createMovieCard(movie) {
-  const yearLabel = Number.isInteger(movie.year) ? ` (${movie.year})` : '';
-  const movieId = Number.parseInt(movie.id, 10);
-  const watchlistButton = getWatchlistButtonMarkup(movieId);
-
-  return `
-		<article class="movie-card">
-			<h3>${movie.title}${yearLabel}</h3>
-			<p><strong>Genre:</strong> ${movie.genre}</p>
-			<p>${movie.reason}</p>
-      ${watchlistButton}
-		</article>
-	`;
-}
-
 function renderStatus(message) {
   if (!movieContainer) {
     return;

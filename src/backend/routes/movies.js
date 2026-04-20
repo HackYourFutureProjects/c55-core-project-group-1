@@ -6,13 +6,18 @@ import {
   getMoviesByRating,
   searchActor,
   getMoviesByActor,
+  getMovieById,
 } from '../movieApi.js';
+import {
+  connectDb,
+  closeDb,
+  getAllWatchlistMovies,
+  getPreferences,
+} from '../db.js';
 
 
 // Shared genre mapping used for search filters and recommendations
 import { GENRE_MAP } from '../utils/genreMap.js';
-
-import { connectDb, getPreferences } from '../db.js';
 import { getRecommendedMovies } from '../movieApi.js';
 
 const MoviesRouter = express.Router();
@@ -64,6 +69,43 @@ MoviesRouter.get('/search', async (req, res) => {
   }
 });
 
+MoviesRouter.get('/watchlist-display', async (_req, res) => {
+  let db;
+
+  try {
+    db = await connectDb();
+    const rows = await getAllWatchlistMovies(db);
+
+    if (rows.length === 0) {
+      return res.json([]);
+    }
+
+    const movies = await Promise.all(
+      rows.map(async ({ movie_id }) => getMovieById(movie_id))
+    );
+
+    return res.json(movies.filter(Boolean));
+  } catch (error) {
+    console.error('Watchlist display error:', error.message);
+    return res.status(500).json({ error: 'Failed to load watchlist movies' });
+  } finally {
+    if (db) {
+      await closeDb(db);
+    }
+  }
+});
+
+MoviesRouter.get('/:id', async (req, res) => {
+  try {
+    const movie = await getMovieById(req.params.id);
+    res.json(movie);
+  } catch (error) {
+    console.error('Search Route Error:', error.message);
+    res.status(500).json({ error: 'Failed to fetch movie' });
+  }
+});
+
+export default MoviesRouter;
 
 /////////////////////////////////////////////////////
 // AI RECOMMENDATIONS ROUTE
@@ -82,5 +124,3 @@ MoviesRouter.get('/recommendations', async (req, res) => {
     res.status(500).json({ error: 'Failed to get recommendations' });
   }
 });
-
-export default MoviesRouter;

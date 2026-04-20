@@ -134,6 +134,7 @@ function mapTmdbMovieToSuggestion(movie, prompt) {
 	}
 
 	return {
+		id: movie.id,
 		title,
 		year: getYearFromReleaseDate(movie.release_date),
 		genre: getGenreName(movie),

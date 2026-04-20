@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import path from 'node:path';
 import llmRoutes from './routes/llmRoutes.js';
 import moviesRoutes from './routes/movies.js';
+import watchlistRoutes from './routes/watchlist.js';
 
 dotenv.config();
 
@@ -16,6 +17,7 @@ app.use('/api/llm', llmRoutes);
 
 // NOTE: movie routes (including /recommendations) are defined in routes/movies.js
 app.use('/api/movies', moviesRoutes);
+app.use('/api/watchlist', watchlistRoutes);
 
 
 app.get('/health', (_request, response) => {

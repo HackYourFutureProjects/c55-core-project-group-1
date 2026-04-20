@@ -4,6 +4,7 @@ import {
   closeDb,
   addMovieToWatchlist,
   getAllWatchlistMovies,
+  removeMovieFromWatchlist,
 } from '../db.js';
 
 const router = express.Router();
@@ -20,7 +21,9 @@ router.get('/', async (req, res) => {
     console.error('Error fetching watchlist:', error);
     res.status(500).json({ error: 'Failed to fetch watchlist' });
   } finally {
-    await closeDb(db);
+    if (db) {
+      await closeDb(db);
+    }
   }
 });
 
@@ -47,7 +50,37 @@ router.post('/', async (req, res) => {
     console.error('Error adding movie:', error);
     res.status(500).json({ error: 'Failed to add movie to watchlist' });
   } finally {
-    await closeDb(db);
+    if (db) {
+      await closeDb(db);
+    }
+  }
+});
+
+// REMOVE movie from watchlist
+router.delete('/:movieId', async (req, res) => {
+  let db;
+  const movieId = Number.parseInt(req.params.movieId, 10);
+
+  if (!Number.isInteger(movieId) || movieId <= 0) {
+    return res.status(400).json({ error: 'movieId must be a positive integer' });
+  }
+
+  try {
+    db = await connectDb();
+    const result = await removeMovieFromWatchlist(db, movieId);
+
+    if (!result.success) {
+      return res.status(404).json({ error: result.message });
+    }
+
+    return res.status(200).json({ success: true, movie_id: movieId });
+  } catch (error) {
+    console.error('Error removing movie:', error);
+    return res.status(500).json({ error: 'Failed to remove movie from watchlist' });
+  } finally {
+    if (db) {
+      await closeDb(db);
+    }
   }
 });
 

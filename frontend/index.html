@@ -96,7 +96,130 @@
     <!-- FOOTER -->
     <footer class="footer">
       <div class="footer-content">
-        <p>🎬 Movie Dashboard — Built for HYF</p>
+        <p>🎬 Movie Dashboard — Built by Cohort-55-Group-1 for HYF</p>
+        <p>© 2026 All Rights Reserved</p>
+
+        <div class="social-icons">
+          <a class="icon fb">
+            <svg viewBox="0 0 24 24" fill="white" width="22">
+              <path
+                d="M22 12a10 10 0 1 0-11.5 9.9v-7h-2v-3h2v-2.3c0-2 1.2-3.1 3-3.1.9 0 1.8.1 1.8.1v2h-1c-1 0-1.3.6-1.3 1.2V12h2.3l-.4 3h-1.9v7A10 10 0 0 0 22 12"
+              />
+            </svg>
+          </a>
+
+          <a class="icon ig">
+            <svg viewBox="0 0 24 24" fill="white" width="22">
+              <path
+                d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm10 2c1.7 0 3 1.3 3 3v10c0 1.7-1.3 3-3 3H7c-1.7 0-3-1.3-3-3V7c0-1.7 1.3-3 3-3h10zm-5 3a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 2a3 3 0 1 1 0 6 3 3 0 0 1 0-6zm4.5-.9a1.1 1.1 0 1 0 0-2.2 1.1 1.1 0 0 0 0 2.2z"
+              />
+            </svg>
+          </a>
+
+          <a class="icon ln">
+            <svg viewBox="0 0 24 24" fill="white" width="22">
+              <path
+                d="M4.98 3.5C4.98 4.88 3.86 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V24h-4V8zm7.5 0h3.8v2.2h.1c.5-.9 1.8-2.2 3.9-2.2 4.2 0 5 2.8 5 6.4V24h-4v-8.3c0-2-.1-4.6-3-4.6-3 0-3.4 2.2-3.4 4.4V24h-4V8z"
+              />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Movie Dashboard</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body class="dark-mode">
+    <!-- HERO -->
+    <section class="hero">
+      <h1 class="hero-title">
+        <span>Welcome to</span>
+        <span class="highlight">Movie Dashboard</span>
+      </h1>
+      <p class="hero-subtitle">Discover movies with AI-powered suggestions</p>
+    </section>
+
+    <!-- TOP BAR -->
+    <header class="topbar">
+      <button class="toggle-sidebar">☰</button>
+
+      <div class="logo">
+        <img
+          src="https://i.postimg.cc/HsrBGNBM/Gemini-Generated-Image-hhtapbhhtapbhhta.png"
+          alt="Logo"
+          class="logo-img"
+        />
+      </div>
+
+      <div class="topbar-right">
+        <button class="theme-toggle">Dark / Light</button>
+        <button
+          class="find-us"
+          onclick="window.location.href = 'https://hackyourfuture.net/'"
+        >
+          Find Us
+        </button>
+      </div>
+    </header>
+
+    <div class="layout">
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <h3>Pick Genres</h3>
+        <ul class="genres">
+          <li data-genre="action">Action</li>
+          <li data-genre="comedy">Comedy</li>
+          <li data-genre="drama">Drama</li>
+          <li data-genre="sci-fi">Sci-Fi</li>
+          <li data-genre="adventure">Adventure</li>
+        </ul>
+
+        <h3>Watchlist</h3>
+        <ul class="watchlist">
+          <li id="viewWatchlistBtn">View Watchlist</li>
+        </ul>
+      </aside>
+
+      <!-- MAIN -->
+      <main class="main">
+        <!-- SEARCH + AI SUGGEST -->
+        <div class="search-row">
+          <!-- SEARCH BAR -->
+          <div class="search-control">
+            <select class="search-type">
+              <option>Title</option>
+              <option>Genre</option>
+              <option>Actor</option>
+            </select>
+            <input placeholder="Type here..." />
+            <button>Search</button>
+          </div>
+
+          <!-- AI SUGGESTION BAR -->
+          <div class="suggest-inline">
+            <input id="aiInput" placeholder="Enter movie description..." />
+            <button id="aiBtn">Suggest AI</button>
+          </div>
+        </div>
+
+        <div class="movies" id="movieContainer"></div>
+      </main>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="footer-content">
+        <p>:clapper: Movie Dashboard — Built for HYF</p>
         <p>© 2026 All Rights Reserved</p>
 
         <div class="social-icons">

@@ -103,6 +103,7 @@ body.light-mode {
 .logo-img {
   height: 70px;
   border-radius: 12px;
+  object-fit: contain;
 }
 
 .topbar-right {
@@ -142,6 +143,7 @@ body.light-mode {
 /* LAYOUT */
 .layout {
   display: flex;
+  min-height: calc(100vh - 70px);
 }
 
 /* SIDEBAR */
@@ -201,13 +203,14 @@ body.light-mode {
   padding: 35px;
 }
 
-/* SEARCH + AI SUGGEST ROW — FIXED */
+/* SEARCH + AI SUGGEST ROW */
 .search-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 40px; /* MEDIUM GAP */
+  gap: 40px;
   margin-bottom: 25px;
+  flex-wrap: wrap;
 }
 
 /* SEARCH BAR LEFT */
@@ -240,6 +243,7 @@ body.light-mode {
   border-radius: 6px;
   background: #162238;
   color: white;
+  outline: none;
 }
 
 .search-control button,
@@ -254,81 +258,104 @@ body.light-mode {
 .search-control button {
   background: #3a7bd5;
 }
+
 .suggest-inline button {
   background: #8e44ad;
+}
+
+/* SECTION TITLE */
+.section-title {
+  margin: 20px 0 10px;
+  font-size: 20px;
 }
 
 /* MOVIES GRID */
 .movies {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 25px;
+  gap: 20px;
 }
 
 /* MOVIE CARD */
 .movie-card {
-  background: #111a2b;
+  background: #1c334d;
   border-radius: 12px;
-  padding: 20px;
+  overflow: hidden;
+  transition: 0.3s;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
 }
 
-.add-watchlist {
-  padding: 10px 18px;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-  background: #2ecc71;
+.movie-card img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  display: block;
+}
+
+.movie-card h3 {
+  font-size: 14px;
+  padding: 8px 10px 4px;
+  margin: 0;
   color: white;
-  font-weight: 600;
 }
 
-/* SKELETON LOADING */
-.movie-card.skeleton {
-  background: #111827;
+.movie-card p {
+  font-size: 12px;
+  padding: 0 10px 8px;
+  margin: 0;
+  color: #aac4e0;
 }
 
-.skeleton-btn {
-  width: 70%;
-  height: 40px;
-  border-radius: 8px;
-  background: linear-gradient(90deg, #1f2937 0%, #374151 50%, #1f2937 100%);
-  background-size: 200% 100%;
-  animation: shimmer 1.4s infinite;
-}
-
-@keyframes shimmer {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
-}
-
-/* PAGINATION */
-.pagination {
-  margin-top: 25px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 15px;
-}
-
-.pagination button {
-  padding: 8px 16px;
+.watchlist-btn {
+  margin: 0 10px 10px;
+  padding: 6px 12px;
+  background: linear-gradient(#4c79a3, #2f5f8a);
+  color: white;
+  border: none;
   border-radius: 6px;
-  border: none;
   cursor: pointer;
-  background: #3a7bd5;
-  color: white;
+  font-size: 12px;
 }
 
-.pagination button:disabled {
-  opacity: 0.4;
-  cursor: default;
+.watchlist-btn:hover {
+  background: linear-gradient(#5edc6b, #2fa043);
+}
+
+/* Remove Button */
+.remove-btn {
+  margin: 0 10px 10px;
+  padding: 6px 12px;
+  background: linear-gradient(#e63946, #c1121f);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.remove-btn:hover {
+  background: linear-gradient(#ff4d5a, #e63946);
+}
+
+/* WATCH SECTION */
+.watch {
+  margin-top: 30px;
+}
+
+.platforms span {
+  margin-right: 10px;
+  padding: 6px 10px;
+}
+
+.netflix {
+  color: red;
+}
+.hulu {
+  color: limegreen;
+}
+.prime {
+  color: lightblue;
 }
 
 /* FOOTER */
@@ -365,7 +392,6 @@ body.light-mode {
   transition: 0.3s ease;
 }
 
-/* REAL BRAND COLORS */
 .icon.fb {
   background: #1877f2;
 }
@@ -392,11 +418,27 @@ body.light-mode {
   .toggle-sidebar {
     display: block;
   }
+
   .layout {
     flex-direction: column;
   }
+
   .sidebar {
+    width: 100%;
     position: relative;
     z-index: 10;
+  }
+
+  .search-row {
+    flex-direction: column;
+  }
+
+  .search-control,
+  .suggest-inline {
+    width: 100%;
+  }
+
+  .search-control input {
+    width: 100%;
   }
 }

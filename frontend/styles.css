@@ -112,17 +112,6 @@ body.light-mode {
   gap: 12px;
 }
 
-/* THEME TOGGLE BUTTON */
-.theme-toggle {
-  background: transparent;
-  border: 1px solid #4ecdc4;
-  color: #4ecdc4;
-  padding: 8px 16px;
-  border-radius: 20px;
-  cursor: pointer;
-  font-size: 13px;
-}
-
 /* FIND US BUTTON */
 .find-us {
   background: linear-gradient(135deg, var(--accent-gold), #d4ac0d);

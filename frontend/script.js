@@ -10,6 +10,9 @@
  * GET    /api/movies/watchlist-display           — Display watchlist movies
  * GET    /api/movies/:id                         — Get single movie details by ID
  * GET    /api/movies/recommendations             — Load recommended movies (NOT USED YET)
+ * GET    /api/preferences/genres                  — List all available genres
+ * GET    /api/preferences                         — Load selected preferences
+ * PUT    /api/preferences                         — Save selected preferences
  * POST   /api/llm/suggest                        — AI movie suggestions
  *
  */
@@ -22,9 +25,11 @@ const searchTypeSelect = document.querySelector('.search-type');
 const searchInput = document.querySelector('.search-control input');
 const searchButton = document.querySelector('.search-control button');
 const viewWatchlistBtn = document.getElementById('viewWatchlistBtn');
+const preferencesBtn = document.getElementById('preferencesBtn');
 
 // Tracks which movie IDs are currently in the watchlist (avoids repeated API calls)
 const watchlistMovieIds = new Set();
+let preferencesMessageTimer = null;
 
 // 2. UI render //
 
@@ -133,6 +138,128 @@ async function loadWatchlistState() {
     }
   } catch (error) {
     console.error(error.message || 'Failed to load watchlist state.');
+  }
+}
+
+function renderPreferencesForm(genres, selectedGenres) {
+  if (!movieContainer) {
+    return;
+  }
+
+  const selected = new Set(selectedGenres);
+  const checkboxes = genres
+    .map((genre) => {
+      const checked = selected.has(genre.key) ? 'checked' : '';
+      return `
+        <label class="preference-option">
+          <input type="checkbox" value="${genre.key}" ${checked} />
+          <span>${genre.name} (${genre.id})</span>
+        </label>
+      `;
+    })
+    .join('');
+
+  movieContainer.innerHTML = `
+    <section class="preferences-panel">
+      <h2>Genre Preferences</h2>
+      <p>Select one or more genres for recommendations.</p>
+      <form id="preferencesForm">
+        <div class="preferences-grid">${checkboxes}</div>
+        <div class="preferences-actions">
+          <button class="preferences-save-btn" type="submit">Save Preferences</button>
+          <span class="preferences-save-message" aria-live="polite"></span>
+        </div>
+      </form>
+    </section>
+  `;
+
+  const form = document.getElementById('preferencesForm');
+  form?.addEventListener('submit', savePreferences);
+}
+
+async function savePreferences(event) {
+  event.preventDefault();
+
+  const form = event.currentTarget;
+  const checkedValues = Array.from(
+    form.querySelectorAll('input[type="checkbox"]:checked')
+  ).map((checkbox) => checkbox.value);
+
+  const saveButton = form.querySelector('.preferences-save-btn');
+  const message = form.querySelector('.preferences-save-message');
+
+  if (preferencesMessageTimer) {
+    clearTimeout(preferencesMessageTimer);
+    preferencesMessageTimer = null;
+  }
+
+  if (saveButton) {
+    saveButton.disabled = true;
+    saveButton.textContent = 'Saving...';
+  }
+
+  try {
+    const response = await fetch('/api/preferences', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ genres: checkedValues }),
+    });
+
+    const payload = await response.json();
+    if (!response.ok) {
+      throw new Error(payload.error || 'Failed to save preferences');
+    }
+
+    if (message) {
+      message.textContent = 'Preferences Saved';
+      preferencesMessageTimer = setTimeout(() => {
+        message.textContent = '';
+      }, 5000);
+    }
+  } catch (error) {
+    if (message) {
+      message.textContent = error.message || 'Could not save preferences.';
+      preferencesMessageTimer = setTimeout(() => {
+        message.textContent = '';
+      }, 5000);
+    }
+  } finally {
+    if (saveButton) {
+      saveButton.disabled = false;
+      saveButton.textContent = 'Save Preferences';
+    }
+  }
+}
+
+async function openPreferences() {
+  if (!movieContainer) {
+    return;
+  }
+
+  movieContainer.innerHTML = '<p>Loading preferences...</p>';
+
+  try {
+    const [genresResponse, selectedResponse] = await Promise.all([
+      fetch('/api/preferences/genres'),
+      fetch('/api/preferences'),
+    ]);
+
+    if (!genresResponse.ok || !selectedResponse.ok) {
+      throw new Error('Failed to load preferences');
+    }
+
+    const genres = await genresResponse.json();
+    const selectedPayload = await selectedResponse.json();
+    const selectedGenres = Array.isArray(selectedPayload.genres)
+      ? selectedPayload.genres
+      : [];
+
+    renderPreferencesForm(genres, selectedGenres);
+  } catch (error) {
+    console.error('Preferences error:', error);
+    movieContainer.innerHTML = '<p>Failed to load preferences.</p>';
   }
 }
 
@@ -371,6 +498,8 @@ viewWatchlistBtn?.addEventListener('click', async () => {
     movieContainer.innerHTML = '<p>Failed to load watchlist.</p>';
   }
 });
+
+preferencesBtn?.addEventListener('click', openPreferences);
 
 /*
  * Delegated click listener for movie cards (watchlist toggle and remove)

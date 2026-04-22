@@ -95,6 +95,25 @@ MoviesRouter.get('/watchlist-display', async (_req, res) => {
   }
 });
 
+MoviesRouter.get('/recommendations', async (_req, res) => {
+  let db;
+
+  try {
+    db = await connectDb();
+    const genres = await getPreferences(db);
+    const movies = await getRecommendedMovies(genres);
+
+    return res.json(movies);
+  } catch (error) {
+    console.error('Recommendation Error:', error);
+    return res.status(500).json({ error: 'Failed to get recommendations' });
+  } finally {
+    if (db) {
+      await closeDb(db);
+    }
+  }
+});
+
 MoviesRouter.get('/:id', async (req, res) => {
   try {
     const movie = await getMovieById(req.params.id);
@@ -106,21 +125,3 @@ MoviesRouter.get('/:id', async (req, res) => {
 });
 
 export default MoviesRouter;
-
-/////////////////////////////////////////////////////
-// AI RECOMMENDATIONS ROUTE
-
-MoviesRouter.get('/recommendations', async (req, res) => {
-  try {
-    const db = await connectDb();
-
-    const genres = await getPreferences(db);
-
-    const movies = await getRecommendedMovies(genres);
-
-    res.json(movies);
-  } catch (error) {
-    console.error('Recommendation Error:', error);
-    res.status(500).json({ error: 'Failed to get recommendations' });
-  }
-});

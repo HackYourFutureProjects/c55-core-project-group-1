@@ -33,7 +33,7 @@ body.light-mode {
 /* HERO BANNER */
 .hero {
   background: linear-gradient(135deg, #0f1a2e, #1b2f4a);
-  padding: 80px 20px;
+  padding: 10px 20px;
   text-align: center;
   color: white;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
@@ -171,43 +171,38 @@ body.light-mode {
   transform: translateX(5px);
 }
 
-.sidebar-actions {
-  margin-top: 36px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.sidebar-actions button {
-  width: 100%;
-  border: none;
-  text-align: left;
-  cursor: pointer;
-  padding: 11px 14px;
-  border-radius: 6px;
-  font-weight: 700;
-  font-size: 14px;
-  transition: 0.2s;
-}
-
 #viewWatchlistBtn {
   background: var(--accent-gold-light);
   color: #0b1220;
+  border: none;
+  padding: 12px 22px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 15px;
+  transition: 0.3s ease;
 }
 
 #preferencesBtn {
   background: #2d9b53;
   color: #ffffff;
+  border: none;
+  padding: 12px 22px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 15px;
+  transition: 0.3s ease;
 }
 
 #viewWatchlistBtn:hover {
   background: var(--accent-gold);
-  color: #0b1220;
+  transform: scale(1.08);
 }
 
 #preferencesBtn:hover {
   background: #248445;
-  color: #fff;
+  transform: scale(1.08);
 }
 
 /* MAIN */
@@ -461,7 +456,7 @@ body.light-mode {
 /* FOOTER */
 .footer {
   background: var(--accent-gold);
-  padding: 50px 0;
+  padding: 15px 0;
   text-align: center;
   border-top: 4px solid #fff;
   box-shadow: 0 -4px 20px rgba(241, 196, 15, 0.7);

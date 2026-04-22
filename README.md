@@ -11,7 +11,7 @@ A smart movie discovery app that helps you find the perfect film based on your p
 
 ![Dashboard](https://i.postimg.cc/hvC5QHDx/Screenshot-2026-04-22-at-12-32-02.png)
 
-[Screenshot-2026-04-22-at-12-32-02.png](https://postimg.cc/RJHRjpnV)
+
  
 ---
 
@@ -19,7 +19,7 @@ A smart movie discovery app that helps you find the perfect film based on your p
 
 ![Technical Highlights](https://i.postimg.cc/KjF13Hqx/Screenshot-2026-04-22-at-12-39-12.png)
 
-[Screenshot-2026-04-22-at-12-39-12.png](https://postimg.cc/qhbJ9jH5)
+
 ---
 
 ---

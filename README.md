@@ -144,7 +144,6 @@ You can copy `.env.example` to `.env` and fill the values.
 
 - The project uses SQLite. The database file is `src/backend/database/movies_recommendation.db`.
 - Use `src/backend/database/setup.sql` to create required tables.
-[Screenshot-2026-04-22-at-12-34-56.png](https://postimg.cc/hJ1kfrMC)
 
 If you need to reset the DB locally, remove the `.db` file and re-run the `sqlite3` command above.
 
@@ -170,95 +169,69 @@ npm test
 
 ### Dagim
 **Group contributions (with Salem):**
-- Worked together on the HTML structure
-- Collaborated on the CSS styling for the frontend
+ Worked together on the HTML structure
+ Collaborated on the CSS styling for the frontend
 
 **Individual contributions:**
-- Set up the Express server
-- Implemented the basic watchlist router
-- Configured the GitHub Actions CI pipeline
-- Organized the project folder structure
-- Wrote and updated the README
-- Created the `.env.example` file
-- Added the initial test file
+ Set up the Express server
+ Implemented the basic watchlist router
+ Configured the GitHub Actions CI pipeline
+ Organized the project folder structure
+ Wrote and updated the README
+ Created the `.env.example` file
+ Added the initial test file
 
 ### Salem
 **Group contributions (with Dagim):**
-- Worked together on the HTML structure
-- Collaborated on the CSS styling for the frontend
+ Worked together on the HTML structure
+ Collaborated on the CSS styling for the frontend
 
 **Individual contributions:**
-- Assisted with building the frontend interface
-- Implemented several movie routes
-- Fetched movie details using movie ID
-- Added features to display movie information from IMDb
-- Built frontend functionality for searching movies and actors
-- Implemented the watchlist display feature
-- Implemented the "Pick Genres" feature
+ Assisted with building the frontend interface
+ Implemented several movie routes
+ Fetched movie details using movie ID
+ Added features to display movie information from IMDb
+ Built frontend functionality for searching movies and actors
+ Implemented the watchlist display feature
+ Implemented the "Pick Genres" feature
 
 ### Atiqa
 **Individual contributions:**
  Watchlist feature (end-to-end):
-  - Created the `watchlist` table in `setup.sql`
-  - Implemented watchlist functions in `db.js`
-  - Implemented watchlist UI functionality
+   Created the `watchlist` table in `setup.sql`
+   Implemented watchlist functions in `db.js`
+   Implemented watchlist UI functionality
 
  LLM feature (end-to-end):
-  - Developed `llm.js` for core LLM AI logic
-  - Contributed to `movieApi.js` as TMDb wrapper
-  - Implemented `routes/llmRoutes.js` endpoint handler
-  - Updated `routes/movies.js` for movie display routes
-  - Added UI logic for suggestions in `script.js`
+   Developed `llm.js` for core LLM AI logic
+   Contributed to `movieApi.js` as TMDb wrapper
+   Implemented `routes/llmRoutes.js` endpoint handler
+   Updated `routes/movies.js` for movie display routes
+   Added UI logic for suggestions in `script.js`
 
 **Group contributions (with Muna):**
-- Planned the app and proposed the watchlist feature
-- Resolved merge conflicts and reviewed PRs
-- Collaborated on preferences and recommendation features
-- Co-presented the project
+ Planned the app and proposed the watchlist feature
+ Resolved merge conflicts and reviewed PRs
+ Collaborated on preferences and recommendation features
+ Co-presented the project
 
 ### Muna
 **Individual contributions:**
-- Implemented all TMDb API functions in `movieApi.js` (search, filter, recommend)
-- Organized API logic and data processing
-- Built the preferences feature end-to-end
-- Implemented UI logic in `script.js` to render and save preferences
-- Created backend routes in `routes/preferences.js`
-- Added CSS styling for the preferences form
+ Implemented all TMDb API functions in `movieApi.js` (search, filter, recommend)
+ Organized API logic and data processing
+ Built the preferences feature end-to-end
+ Implemented UI logic in `script.js` to render and save preferences
+ Created backend routes in `routes/preferences.js`
+ Added CSS styling for the preferences form
 
 **Group contributions (with Atiqa):**
-- Set up `db.js` and the database structure together
-- Built shared database functions
-- Collaborated on preferences and recommendation features
-- Helped resolve merge conflicts and reviewed PRs
+ Set up `db.js` and the database structure together
+ Built shared database functions
+ Collaborated on preferences and recommendation features
+ Helped resolve merge conflicts and reviewed PRs
 
-      <img src="https://github.com/Dagim.png?size=200" width="100" alt="Dagim"/><br/>
-      <sub><b>Dagim</b></sub><br/>
-      🧑‍💻 Backend • README • CI
-    </td>
-    <td align="center">
-      <img src="https://github.com/Salem.png?size=200" width="100" alt="Salem"/><br/>
-      <sub><b>Salem</b></sub><br/>
-      🎨 Frontend • Routes • Search
-    </td>
-    <td align="center">
-      <img src="https://github.com/Atiqa.png?size=200" width="100" alt="Atiqa"/><br/>
-      <sub><b>Atiqa</b></sub><br/>
-      🤖 LLM • Watchlist • DB
-    </td>
-    <td align="center">
-      <img src="https://github.com/Muna.png?size=200" width="100" alt="Muna"/><br/>
-      <sub><b>Muna</b></sub><br/>
-      🎬 TMDb API • Preferences
-    </td>
   </tr>
 </table>
-
----
-
-## ✅ Notes & next steps
-
-- This README has been cleaned: duplicate fragments and chat transcripts were removed.
-- I can add CI/test badges, license text, or create a PR with this change if you want.
 
 ---
 

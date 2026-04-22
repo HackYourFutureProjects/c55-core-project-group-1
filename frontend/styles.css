@@ -282,6 +282,19 @@ body.light-mode {
   font-size: 20px;
 }
 
+.recommendation-heading {
+  margin: 0 0 8px;
+  font-size: 22px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.recommendation-source {
+  margin: 0 0 12px;
+  font-size: 14px;
+  color: #c6d8ef;
+}
+
 /* MOVIES GRID */
 .movies {
   display: grid;

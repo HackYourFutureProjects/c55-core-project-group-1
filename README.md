@@ -1,8 +1,6 @@
 # 🎬 Find My Film
 
-<p align="center">
-  <img src="https://i.postimg.cc/KjF13Hqx/Screenshot-2026-04-22-at-12-39-12.png" alt="Project banner" width="100%" />
-</p>
+
 
 A smart movie discovery app that helps you find the perfect film based on your preferences, genres, and AI-powered suggestions.
 
@@ -27,6 +25,8 @@ A smart movie discovery app that helps you find the perfect film based on your p
 ## ⚙️ Technical Highlights
 
 ![Technical Highlights](https://i.postimg.cc/KjF13Hqx/Screenshot-2026-04-22-at-12-39-12.png)
+
+[Screenshot-2026-04-22-at-12-39-12.png](https://postimg.cc/qhbJ9jH5)
 
 ---
 

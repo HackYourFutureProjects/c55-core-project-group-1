@@ -140,3 +140,76 @@ export async function getPreferences(db) {
   const rows = await all(db, 'SELECT genre FROM preferences;');
   return rows.map(row => row.genre);
 }
+
+// addPreference: Adds one genre key to user preferences.
+export async function addPreference(db, genre) {
+  const normalizedGenre = typeof genre === 'string' ? genre.trim().toLowerCase() : '';
+
+  if (!normalizedGenre) {
+    return { success: false, message: 'Genre is required' };
+  }
+
+  try {
+    await run(db, 'INSERT INTO preferences (genre) VALUES (?);', [normalizedGenre]);
+    return { success: true, genre: normalizedGenre };
+  } catch (error) {
+    if (error.message.includes('UNIQUE constraint failed')) {
+      return { success: true, genre: normalizedGenre };
+    }
+
+    throw error;
+  }
+}
+
+// removePreference: Removes one genre key from user preferences.
+export async function removePreference(db, genre) {
+  const normalizedGenre = typeof genre === 'string' ? genre.trim().toLowerCase() : '';
+
+  if (!normalizedGenre) {
+    return { success: false, message: 'Genre is required' };
+  }
+
+  const result = await run(
+    db,
+    'DELETE FROM preferences WHERE genre = ?;',
+    [normalizedGenre]
+  );
+
+  if (result.changes === 0) {
+    return { success: false, message: 'Genre not found', genre: normalizedGenre };
+  }
+
+  return { success: true, genre: normalizedGenre };
+}
+
+// setPreferences: Replaces existing preference set in a single operation.
+export async function setPreferences(db, genres = []) {
+  const normalizedGenres = Array.from(
+    new Set(
+      (Array.isArray(genres) ? genres : [])
+        .map((genre) => (typeof genre === 'string' ? genre.trim().toLowerCase() : ''))
+        .filter(Boolean)
+    )
+  );
+
+  await run(db, 'BEGIN TRANSACTION;');
+
+  try {
+    await run(db, 'DELETE FROM preferences;');
+
+    for (const genre of normalizedGenres) {
+      await run(db, 'INSERT INTO preferences (genre) VALUES (?);', [genre]);
+    }
+
+    await run(db, 'COMMIT;');
+    return { success: true, genres: normalizedGenres };
+  } catch (error) {
+    try {
+      await run(db, 'ROLLBACK;');
+    } catch {
+      // Ignore rollback failures so the original error can be handled upstream.
+    }
+
+    throw error;
+  }
+}

@@ -165,8 +165,7 @@ body.light-mode {
   font-size: 18px;
 }
 
-.genres li,
-.watchlist li {
+.genres li {
   list-style: none;
   margin: 12px 0;
   cursor: pointer;
@@ -177,24 +176,49 @@ body.light-mode {
 }
 
 /* SIDEBAR HOVER */
-.genres li:hover,
-.watchlist li:hover {
+.genres li:hover {
   background: var(--accent-gold-light);
   color: #0b1220;
   transform: translateX(5px);
 }
 
-/* VIEW WATCHLIST SPECIAL STYLE */
-.watchlist li#viewWatchlistBtn {
-  background: var(--accent-gold-light);
-  color: #0b1220;
-  font-weight: 700;
-  border-radius: 6px;
+.sidebar-actions {
+  margin-top: 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
-.watchlist li#viewWatchlistBtn:hover {
+.sidebar-actions button {
+  width: 100%;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  padding: 11px 14px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+#viewWatchlistBtn {
+  background: var(--accent-gold-light);
+  color: #0b1220;
+}
+
+#preferencesBtn {
+  background: #2d9b53;
+  color: #ffffff;
+}
+
+#viewWatchlistBtn:hover {
   background: var(--accent-gold);
   color: #0b1220;
+}
+
+#preferencesBtn:hover {
+  background: #248445;
+  color: #fff;
 }
 
 /* MAIN */
@@ -274,6 +298,70 @@ body.light-mode {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 20px;
+}
+
+.preferences-panel {
+  grid-column: 1 / -1;
+  background: #162844;
+  border: 1px solid #29466d;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.preferences-panel h2 {
+  margin: 0 0 8px;
+}
+
+.preferences-panel p {
+  margin: 0 0 14px;
+  color: #c6d8ef;
+}
+
+.preferences-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.preference-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #1b3353;
+  border-radius: 8px;
+  padding: 10px 12px;
+  cursor: pointer;
+}
+
+.preference-option input {
+  width: 16px;
+  height: 16px;
+}
+
+.preferences-save-btn {
+  background: linear-gradient(#4c79a3, #2f5f8a);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 14px;
+  cursor: pointer;
+}
+
+.preferences-save-btn:hover {
+  background: linear-gradient(#5edc6b, #2fa043);
+}
+
+.preferences-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.preferences-save-message {
+  color: #7ef2a0;
+  font-size: 13px;
+  font-weight: 600;
 }
 
 /* MOVIE CARD */

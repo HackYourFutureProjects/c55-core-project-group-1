@@ -1,20 +1,11 @@
 # 🎬 Find My Film
 
-<p align="center">
-  <img src="https://i.postimg.cc/KjF13Hqx/Screenshot-2026-04-22-at-12-39-12.png" alt="Project banner" width="100%" />
-</p>
 
 A smart movie discovery app that helps you find the perfect film based on your preferences, genres, and AI-powered suggestions.
 
 ---
 
 ## 📸 Screenshots
-
-**Homepage (Full View)**
-
-![Homepage](https://i.postimg.cc/qM3Rw0nk/Screenshot-2026-04-22-at-12-12-12.png)
-
-[Screenshot-2026-04-22-at-12-12-12.png](https://postimg.cc/fJMDWGBF)
 
 **Movie Dashboard**
 
@@ -28,6 +19,7 @@ A smart movie discovery app that helps you find the perfect film based on your p
 
 ![Technical Highlights](https://i.postimg.cc/KjF13Hqx/Screenshot-2026-04-22-at-12-39-12.png)
 
+[Screenshot-2026-04-22-at-12-39-12.png](https://postimg.cc/qhbJ9jH5)
 ---
 
 ---
@@ -206,12 +198,12 @@ npm test
 
 ### Atiqa
 **Individual contributions:**
-1. Watchlist feature (end-to-end):
+ Watchlist feature (end-to-end):
   - Created the `watchlist` table in `setup.sql`
   - Implemented watchlist functions in `db.js`
   - Implemented watchlist UI functionality
 
-2. LLM feature (end-to-end):
+ LLM feature (end-to-end):
   - Developed `llm.js` for core LLM AI logic
   - Contributed to `movieApi.js` as TMDb wrapper
   - Implemented `routes/llmRoutes.js` endpoint handler

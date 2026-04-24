@@ -7,6 +7,7 @@ import moviesRoutes from './routes/movies.js';
 import watchlistRoutes from './routes/watchlist.js';
 import preferencesRoutes from './routes/preferences.js';
 
+// Application entrypoint: wires middleware, static assets, and API routes.
 dotenv.config();
 
 const app = express();

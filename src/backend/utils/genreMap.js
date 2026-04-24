@@ -1,6 +1,5 @@
 /////////////////////////////////////////////////////
-//GENRE_MAP: maps genre names (from user input or DB)
-// to TMDB genre IDs used in API requests 
+// Shared constant: app genre keys mapped to TMDB genre IDs.
 
 
 export  const GENRE_MAP = {

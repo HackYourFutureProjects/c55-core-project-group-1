@@ -2,6 +2,7 @@ import js from '@eslint/js';
 import globals from 'globals';
 import { defineConfig } from 'eslint/config';
 
+// ESLint baseline for the whole project: modern JS + browser globals.
 export default defineConfig([
   {
     files: ['**/*.{js,mjs,cjs}'],

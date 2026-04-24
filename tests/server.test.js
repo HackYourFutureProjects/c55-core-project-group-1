@@ -2,6 +2,7 @@ import { describe, it, expect, vi } from 'vitest';
 import express from 'express';
 import http from 'http';
 
+// Server wiring tests to verify core endpoints and mocked route mounting.
 // Vitest-safe mocks (no top-level variables)
 vi.mock('../src/backend/routes/llmRoutes.js', () => ({
   default: express.Router().get('/', (_req, res) => res.json({ ok: true })),

@@ -7,6 +7,7 @@ import {
   removeMovieFromWatchlist,
 } from '../db.js';
 
+// Watchlist routes: list, add, and remove saved movie IDs.
 const router = express.Router();
 
 // GET all watchlist items

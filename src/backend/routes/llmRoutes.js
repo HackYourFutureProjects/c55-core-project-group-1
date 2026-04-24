@@ -1,6 +1,7 @@
 import express from 'express';
 import { suggestMovies } from '../llm.js';
 
+// HTTP endpoints for AI-based movie suggestions.
 const router = express.Router();
 
 router.post('/suggest', async (request, response) => {

@@ -20,6 +20,7 @@ import {
 import { GENRE_MAP } from '../utils/genreMap.js';
 import { getRecommendedMovies } from '../movieApi.js';
 
+// Movie routes: search, movie details, watchlist display, and recommendations.
 const MoviesRouter = express.Router();
 
 /////////////////////////////////////////////////////

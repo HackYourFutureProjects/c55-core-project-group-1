@@ -1,5 +1,6 @@
 import { describe, expect, test } from 'vitest';
 
+// Minimal sanity test to verify the test runner setup works.
 describe('Example Test', () => {
   test('adds 1 + 2 to equal 3', () => {
     expect(1 + 2).toBe(3);

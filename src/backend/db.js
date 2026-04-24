@@ -1,6 +1,7 @@
 import sqlite3 from 'sqlite3';
 import path from 'node:path';
 
+// SQLite data-access layer for watchlist and user preferences.
 const DB_FILE = path.resolve('src/database/movies_recommendation.db');
 
 // connectDB: Open SQLite connection to database file.

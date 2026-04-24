@@ -8,6 +8,7 @@ import {
 	searchMovies,
 } from './movieApi.js';
 
+// LLM orchestration: convert user intent into safe TMDB retrieval strategies.
 // Safety defaults for predictable API behavior.
 const DEFAULT_LIMIT = 5;
 const LLM_TIMEOUT_MS = 10_000;

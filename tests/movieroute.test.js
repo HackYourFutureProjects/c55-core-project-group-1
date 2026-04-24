@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import express from 'express';
 import http from 'http';
 
+// Route-level tests for /api/movies/search with movieApi calls mocked.
 // Mock searchMovies BEFORE importing the router
 vi.mock('../src/backend/movieApi.js', () => ({
   searchMovies: vi.fn(),

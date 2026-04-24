@@ -1,4 +1,5 @@
 /* THEME VARIABLES */
+/* Styles are grouped by page area: layout, controls, cards, and responsive rules. */
 :root {
   --bg-dark: #0b1220;
   --bg-dark-alt: #0f1a2e;

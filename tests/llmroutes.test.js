@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import express from 'express';
 import http from 'http';
 
+// Route-level tests for /api/llm/suggest using a mocked suggestMovies service.
 // Mock suggestMovies BEFORE importing the router
 vi.mock('../src/backend/llm.js', () => ({
   suggestMovies: vi.fn(),

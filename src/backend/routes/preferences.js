@@ -7,8 +7,10 @@ import {
 } from '../db.js';
 import { GENRE_MAP } from '../utils/genreMap.js';
 
+// Preferences routes: expose available genres and persist selected genres.
 const router = express.Router();
 
+// Convert the static genre map into a sorted list for the frontend.
 function buildGenreList() {
   return Object.entries(GENRE_MAP)
     .map(([key, id]) => ({
@@ -22,10 +24,12 @@ function buildGenreList() {
     .sort((a, b) => a.name.localeCompare(b.name));
 }
 
+// Return all supported genres in a display-friendly format.
 router.get('/genres', (_req, res) => {
   res.json(buildGenreList());
 });
 
+// Fetch and return the user's currently saved genre preferences.
 router.get('/', async (_req, res) => {
   let db;
 
@@ -43,6 +47,7 @@ router.get('/', async (_req, res) => {
   }
 });
 
+// Validate and persist a new set of user genre preferences.
 router.put('/', async (req, res) => {
   let db;
   const incoming = Array.isArray(req.body?.genres) ? req.body.genres : null;

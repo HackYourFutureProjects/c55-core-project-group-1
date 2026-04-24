@@ -2,6 +2,7 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
+// TMDB integration layer: all outbound movie discovery and lookup requests.
 /////////////////////////////////////////////////////
 // Shared genre mapping used for search filters and recommendations
 

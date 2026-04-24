@@ -17,6 +17,8 @@
  *
  */
 
+// Frontend controller: handles UI rendering, user interactions, and API calls.
+
 // 1. DOM element //
 const movieContainer = document.getElementById('movieContainer');
 const suggestInput = document.getElementById('aiInput');

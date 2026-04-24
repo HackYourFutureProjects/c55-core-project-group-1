@@ -22,6 +22,13 @@ A smart movie discovery app that helps you find the perfect film based on your p
 
 ---
 
+## 📝 Developer Notes
+
+* Backend entrypoint: `src/backend/server.js`
+* API + DB access helpers: `src/backend/movieApi.js` and `src/backend/db.js`
+* Main UI logic: `frontend/script.js`
+* Preferences flow: `src/backend/routes/preferences.js` and `frontend/script.js`
+
 ---
 
 ## 🚀 Overview
